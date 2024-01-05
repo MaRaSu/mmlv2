@@ -12,6 +12,10 @@
     "openmaptiles": {
       "type": "vector",
       "url": "https://tiles.trailmap.fi/data/finland-omt.json"
+    },
+    "rinnevarjostus": {
+      "type": "raster",
+      "tiles": ["https://static.trailmap.fi/varjomap/{z}/{x}/{y}.png"]
     }
   },
   "glyphs": "https://avoin-karttakuva.maanmittauslaitos.fi/vectortiles/glyphs/{fontstack}/{range}.pbf?api-key=e77a367c-c6f4-417e-870c-b55d156de596",
@@ -24,6 +28,14 @@
       },
       "paint": {
         "background-color": "#dceacc"
+      }
+    },
+    {
+      "id": "rinnevarjostus",
+      "type": "raster",
+      "source": "rinnevarjostus",
+      "layout": {
+        "visibility": "visible"
       }
     },
     {
@@ -45,16 +57,42 @@
         "fill-color": [
           "match",
           ["get", "kohdeluokka"],
-          [35411, 35412, 35421, 35422, 35401, 35402],
+          [35412, 35421, 35422, 35401, 35402],
           "hsla(200, 80%, 90%, 0.7)",
+          35411,
+          "#D1CC40",
           [34100, 34700, 38600],
           "hsla(208, 11%, 75%, 0.5)",
           [38300, 38700, 38400, 35300, 39130],
           "hsl(207, 100%, 94%)",
           [39110, 39120],
           "hsla(44, 100%, 83%, 0.84)",
+          33000,
+          "#FFFFD9",
           "hsla(360, 100%, 100%, 0)"
-        ]
+        ],
+        "fill-outline-color": ["match", ["get", "kohdeluokka"], 33000, "#0D0D00", "#f7f7f3"]
+      }
+    },
+    {
+      "id": "alueraja",
+      "type": "line",
+      "source": "taustakartta",
+      "source-layer": "alueraja",
+      "filter": ["match", ["get", "kohdeluokka"], [72200], true, false],
+      "paint": {
+        "line-color": [
+          "match",
+          ["get", "kohdeluokka"],
+          72000,
+          "#00B300",
+          72200,
+          "#00B300",
+          "hsla(360, 100%, 100%, 0)"
+        ],
+        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 3, 20, 10],
+        "line-dasharray": [2, 2],
+        "line-opacity": 0.8
       }
     },
     {
@@ -78,8 +116,10 @@
           ["get", "kohdeluokka"],
           40200,
           "hsl(0, 0%, 90%)",
+          32111,
+          "#FFFFD9",
           32611,
-          "#f9f4d2",
+          "#FFD980",
           32200,
           "hsl(87, 45%, 72%)",
           32612,
@@ -93,7 +133,31 @@
           34300,
           "hsl(60, 55%, 80%)",
           "#f7f7f3"
-        ]
+        ],
+        "fill-outline-color": [
+          "match",
+          ["get", "kohdeluokka"],
+          40200,
+          "hsl(0, 0%, 90%)",
+          32111,
+          "#0D0D00",
+          32611,
+          "#0D0D00",
+          32200,
+          "hsl(87, 45%, 72%)",
+          32612,
+          "hsl(87, 45%, 72%)",
+          32800,
+          "hsl(87, 45%, 72%)",
+          32900,
+          "hsl(87, 45%, 72%)",
+          33100,
+          "#0D0D00",
+          34300,
+          "hsl(60, 55%, 80%)",
+          "#f7f7f3"
+        ],
+        "fill-antialias": true
       }
     },
     {
@@ -167,8 +231,16 @@
         "visibility": "visible"
       },
       "paint": {
-        "line-color": "rgba(183, 90, 6, 1)",
-        "line-width": 1
+        "line-color": "#AB5700",
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          ["case", ["==", ["%", ["get", "korkeusarvo"], 20000], 0], 1.25, 0.75],
+          20,
+          ["case", ["==", ["%", ["get", "korkeusarvo"], 20000], 0], 16, 8]
+        ]
       }
     },
     {
@@ -333,7 +405,7 @@
       "paint": {
         "line-color": "#90ca6f",
         "line-dasharray": [3, 1.5],
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 0.5, 20, 15]
+        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1, 20, 20]
       }
     },
     {
@@ -533,8 +605,8 @@
       ],
       "layout": {},
       "paint": {
-        "line-color": "#ccc",
-        "line-dasharray": [12, 2],
+        "line-color": "#000",
+        "line-dasharray": [8, 2],
         "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1, 20, 20]
       }
     },
@@ -543,7 +615,7 @@
       "type": "line",
       "source": "openmaptiles",
       "source-layer": "transportation",
-      "minzoom": 13,
+      "minzoom": 14,
       "maxzoom": 24,
       "filter": [
         "all",
@@ -557,7 +629,7 @@
       },
       "paint": {
         "line-dasharray": [2, 1.5],
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1, 20, 20],
+        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 0.7, 20, 15],
         "line-color": "rgba(69, 68, 68, 1)"
       }
     },
@@ -597,7 +669,7 @@
       "paint": {
         "line-color": "rgba(53, 58, 197, 1)",
         "line-dasharray": [1.75, 1],
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1, 20, 15]
+        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1, 20, 20]
       }
     },
     {
@@ -615,7 +687,7 @@
       "layout": {},
       "paint": {
         "line-color": "#90ca6f",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 0.5, 20, 15]
+        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1, 20, 20]
       }
     },
     {
@@ -688,7 +760,7 @@
       ],
       "layout": {},
       "paint": {
-        "line-color": "#ccc",
+        "line-color": "#91EFF3",
         "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 2, 20, 40]
       }
     },
@@ -766,7 +838,6 @@
       ],
       "layout": {},
       "paint": {
-        "line-color": "#eeeeee",
         "line-dasharray": [2, 2],
         "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1.5, 20, 30]
       }
@@ -948,7 +1019,7 @@
       ],
       "layout": {},
       "paint": {
-        "line-color": "#313030",
+        "line-color": "#DA2D2D",
         "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 4, 20, 80]
       }
     },

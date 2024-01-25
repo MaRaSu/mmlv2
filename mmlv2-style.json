@@ -2,7 +2,7 @@
   "version": 8,
   "name": "NLS Basemap",
   "metadata": {},
-  "center": [21.645, 63.101],
+  "center": [23.65, 61.5],
   "zoom": 11.35,
   "sources": {
     "taustakartta": {
@@ -28,14 +28,6 @@
       },
       "paint": {
         "background-color": "#dceacc"
-      }
-    },
-    {
-      "id": "rinnevarjostus",
-      "type": "raster",
-      "source": "rinnevarjostus",
-      "layout": {
-        "visibility": "visible"
       }
     },
     {
@@ -161,6 +153,41 @@
       }
     },
     {
+      "id": "rinnevarjostus",
+      "type": "raster",
+      "source": "rinnevarjostus",
+      "minzoom": 11,
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "raster-opacity": 0.25
+      }
+    },
+    {
+      "id": "korkeus_viiva",
+      "type": "line",
+      "source": "taustakartta",
+      "source-layer": "korkeus",
+      "minzoom": 11,
+      "maxzoom": 20,
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "#AB5700",
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          ["case", ["==", ["%", ["get", "korkeusarvo"], 20000], 0], 1, 0.5],
+          20,
+          ["case", ["==", ["%", ["get", "korkeusarvo"], 20000], 0], 14, 7]
+        ]
+      }
+    },
+    {
       "id": "lentokentta_alue",
       "type": "fill",
       "source": "taustakartta",
@@ -218,29 +245,6 @@
       "paint": {
         "line-width": 6,
         "line-color": "#fde9db"
-      }
-    },
-    {
-      "id": "korkeus_viiva",
-      "type": "line",
-      "source": "taustakartta",
-      "source-layer": "korkeus",
-      "minzoom": 13,
-      "maxzoom": 20,
-      "layout": {
-        "visibility": "visible"
-      },
-      "paint": {
-        "line-color": "#AB5700",
-        "line-width": [
-          "interpolate",
-          ["exponential", 1.55],
-          ["zoom"],
-          6,
-          ["case", ["==", ["%", ["get", "korkeusarvo"], 20000], 0], 1.25, 0.75],
-          20,
-          ["case", ["==", ["%", ["get", "korkeusarvo"], 20000], 0], 16, 8]
-        ]
       }
     },
     {

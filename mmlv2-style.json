@@ -15,7 +15,27 @@
     },
     "rinnevarjostus": {
       "type": "raster",
+      "maxzoom": 13,
       "tiles": ["https://static.trailmap.fi/varjomap/{z}/{x}/{y}.png"]
+    },
+    "ilmakuva": {
+      "type": "raster",
+      "maxzoom": 17,
+      "tiles": [
+        "https://avoin-karttakuva.maanmittauslaitos.fi/avoin/wmts/1.0.0/ortokuva/default/WGS84_Pseudo-Mercator/{z}/{y}/{x}.png?api-key=e77a367c-c6f4-417e-870c-b55d156de596"
+      ]
+    },
+    "ilmakuva2": {
+      "type": "raster",
+      "maxzoom": 19,
+      "tiles": ["https://nls.trailmap.fi/ortokuva/{z}/{x}/{y}.jpg"]
+    },
+    "taustakartta-rasteri": {
+      "type": "raster",
+      "maxzoom": 17,
+      "tiles": [
+        "https://avoin-karttakuva.maanmittauslaitos.fi/avoin/wmts/1.0.0/taustakartta/default/WGS84_Pseudo-Mercator/{z}/{y}/{x}.png?api-key=e77a367c-c6f4-417e-870c-b55d156de596"
+      ]
     }
   },
   "glyphs": "https://avoin-karttakuva.maanmittauslaitos.fi/vectortiles/glyphs/{fontstack}/{range}.pbf?api-key=e77a367c-c6f4-417e-870c-b55d156de596",
@@ -39,8 +59,8 @@
         "match",
         ["get", "kohdeluokka"],
         [
-          35300, 35411, 35412, 35421, 35422, 34300, 34100, 34700, 38300, 38700, 39110, 39120, 39130,
-          33000, 38400, 38600, 35401, 35402
+          35300, 35411, 35412, 35421, 35422, 34300, 34100, 34700, 38300, 38700,
+          39110, 39120, 39130, 33000, 38400, 38600, 35401, 35402
         ],
         true,
         false
@@ -63,7 +83,13 @@
           "#FFFFD9",
           "hsla(360, 100%, 100%, 0)"
         ],
-        "fill-outline-color": ["match", ["get", "kohdeluokka"], 33000, "#0D0D00", "#f7f7f3"]
+        "fill-outline-color": [
+          "match",
+          ["get", "kohdeluokka"],
+          33000,
+          "#0D0D00",
+          "#f7f7f3"
+        ]
       }
     },
     {
@@ -82,7 +108,15 @@
           "#00B300",
           "hsla(360, 100%, 100%, 0)"
         ],
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 3, 20, 10],
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          3,
+          20,
+          10
+        ],
         "line-dasharray": [2, 2],
         "line-opacity": 0.8
       }
@@ -96,8 +130,8 @@
         "match",
         ["get", "kohdeluokka"],
         [
-          32111, 32112, 32113, 32200, 32300, 32500, 32611, 32612, 32800, 32900, 33100, 34300, 38900,
-          40200
+          32111, 32112, 32113, 32200, 32300, 32500, 32611, 32612, 32800, 32900,
+          33100, 34300, 38900, 40200
         ],
         true,
         false
@@ -198,7 +232,9 @@
         [
           "match",
           ["get", "kohdeluokka"],
-          [32411, 32412, 32413, 32414, 32415, 32416, 32417, 32418, 32441, 32442],
+          [
+            32411, 32412, 32413, 32414, 32415, 32416, 32417, 32418, 32441, 32442
+          ],
           true,
           false
         ]
@@ -230,7 +266,11 @@
       "type": "line",
       "source": "taustakartta",
       "source-layer": "liikenne",
-      "filter": ["any", ["==", "kohdeluokka", 32431], ["==", "kohdeluokka", 32432]],
+      "filter": [
+        "any",
+        ["==", "kohdeluokka", 32431],
+        ["==", "kohdeluokka", 32432]
+      ],
       "paint": {
         "line-width": 7,
         "line-color": "#c8c4c5"
@@ -241,7 +281,11 @@
       "type": "line",
       "source": "taustakartta",
       "source-layer": "liikenne",
-      "filter": ["any", ["==", "kohdeluokka", 32431], ["==", "kohdeluokka", 32432]],
+      "filter": [
+        "any",
+        ["==", "kohdeluokka", 32431],
+        ["==", "kohdeluokka", 32432]
+      ],
       "paint": {
         "line-width": 6,
         "line-color": "#fde9db"
@@ -273,7 +317,15 @@
       "source-layer": "vesisto_viiva",
       "paint": {
         "line-color": "hsl(200, 80%, 85%)",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 0.75, 20, 30]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          0.75,
+          20,
+          30
+        ]
       }
     },
     {
@@ -315,8 +367,37 @@
       }
     },
     {
+      "id": "alt_base_ortho",
+      "type": "raster",
+      "source": "ilmakuva",
+      "maxzoom": 16,
+      "layout": {
+        "visibility": "none"
+      }
+    },
+    {
+      "id": "alt_base_ortho2",
+      "type": "raster",
+      "source": "ilmakuva2",
+      "minzoom": 16,
+      "layout": {
+        "visibility": "none"
+      }
+    },
+    {
+      "id": "alt_base_simple",
+      "type": "raster",
+      "source": "taustakartta-rasteri",
+      "layout": {
+        "visibility": "none"
+      }
+    },
+    {
       "id": "tiet tunnelissa",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -325,7 +406,9 @@
         [
           "match",
           ["get", "kohdeluokka"],
-          [12141, 12132, 12131, 12122, 12121, 12112, 12111, 12313, 12314, 12136],
+          [
+            12141, 12132, 12131, 12122, 12121, 12112, 12111, 12313, 12314, 12136
+          ],
           true,
           false
         ],
@@ -335,12 +418,23 @@
       "paint": {
         "line-color": "#ccc",
         "line-dasharray": [32, 16],
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1, 20, 20]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          1,
+          20,
+          20
+        ]
       }
     },
     {
       "id": "ajotie, pinnan alla",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -352,12 +446,23 @@
       "layout": {},
       "paint": {
         "line-color": "#ccc",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1, 20, 20]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          1,
+          20,
+          20
+        ]
       }
     },
     {
       "id": "ajopolku, pinnan alla",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -370,12 +475,23 @@
       "paint": {
         "line-color": "#ccc",
         "line-dasharray": [12, 2],
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1, 20, 20]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          1,
+          20,
+          20
+        ]
       }
     },
     {
       "id": "polku, pinnan alla",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -390,12 +506,23 @@
       "paint": {
         "line-color": "#ccc",
         "line-dasharray": [2, 1.5],
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1, 20, 20]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          1,
+          20,
+          20
+        ]
       }
     },
     {
       "id": "kavely- ja pyoratie, paallystamaton, pinnan alla",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -409,12 +536,23 @@
       "paint": {
         "line-color": "#90ca6f",
         "line-dasharray": [3, 1.5],
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1, 20, 20]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          1,
+          20,
+          20
+        ]
       }
     },
     {
       "id": "kavely- ja pyoratie, paallystetty, pinnan alla",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -427,12 +565,23 @@
       "layout": {},
       "paint": {
         "line-color": "#90ca6f",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 0.5, 20, 15]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          0.5,
+          20,
+          15
+        ]
       }
     },
     {
       "id": "tiet_1a_1b_reuna, pinnan alla",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -444,12 +593,23 @@
       "layout": {},
       "paint": {
         "line-color": "#ccc",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 6, 20, 84]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          6,
+          20,
+          84
+        ]
       }
     },
     {
       "id": "tiet_2a_2b_reuna, pinnan alla",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -461,12 +621,23 @@
       "layout": {},
       "paint": {
         "line-color": "#ccc",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 4, 20, 63]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          4,
+          20,
+          63
+        ]
       }
     },
     {
       "id": "tiet_3a_3b_reuna, pinnan alla",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -478,12 +649,23 @@
       "layout": {},
       "paint": {
         "line-color": "#ccc",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 3, 20, 30]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          3,
+          20,
+          30
+        ]
       }
     },
     {
       "id": "rautatie_reuna, pinnan alla",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -501,12 +683,23 @@
       "layout": {},
       "paint": {
         "line-color": "#ccc",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 2, 20, 40]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          2,
+          20,
+          40
+        ]
       }
     },
     {
       "id": "tiet_1a_1b_taytto, pinnan alla",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -518,12 +711,23 @@
       "layout": {},
       "paint": {
         "line-color": "#eeeeee",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 4, 20, 80]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          4,
+          20,
+          80
+        ]
       }
     },
     {
       "id": "tiet_2a_2b_taytto, pinnan alla",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -535,12 +739,23 @@
       "layout": {},
       "paint": {
         "line-color": "#eeeeee",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 2.5, 20, 60]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          2.5,
+          20,
+          60
+        ]
       }
     },
     {
       "id": "tiet_3a_3b_taytto, pinnan alla",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -552,12 +767,23 @@
       "layout": {},
       "paint": {
         "line-color": "#eeeeee",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1.5, 20, 30]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          1.5,
+          20,
+          30
+        ]
       }
     },
     {
       "id": "rautatie_taytto, pinnan alla",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -576,12 +802,23 @@
       "paint": {
         "line-color": "#eeeeee",
         "line-dasharray": [2, 2],
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1.5, 20, 30]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          1.5,
+          20,
+          30
+        ]
       }
     },
     {
       "id": "ajotie, pinnalla",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -593,12 +830,23 @@
       "layout": {},
       "paint": {
         "line-color": "rgba(65, 64, 64, 1)",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1, 20, 20]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          1,
+          20,
+          20
+        ]
       }
     },
     {
       "id": "ajopolku, pinnalla",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -611,35 +859,545 @@
       "paint": {
         "line-color": "#000",
         "line-dasharray": [8, 2],
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1, 20, 20]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          1,
+          20,
+          20
+        ]
       }
     },
     {
-      "id": "highway-path",
+      "id": "hw-path-case",
       "type": "line",
+      "metadata": {
+        "mapbox:group": "1444849345966.4436",
+        "trailmap:ways_only": true
+      },
       "source": "openmaptiles",
       "source-layer": "transportation",
-      "minzoom": 14,
-      "maxzoom": 24,
+      "minzoom": 13,
       "filter": [
         "all",
         ["==", "$type", "LineString"],
         ["!in", "brunnel", "bridge", "tunnel"],
         ["==", "class", "path"],
-        ["==", "subclass", "path"]
+        ["!in", "subclass", "cycleway", "footway"],
+        ["has", "mtb_scale"],
+        ["!in", "mtb_scale", "-1"]
       ],
       "layout": {
         "visibility": "visible"
       },
       "paint": {
-        "line-dasharray": [2, 1.5],
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 0.7, 20, 15],
-        "line-color": "rgba(69, 68, 68, 1)"
+        "line-color": [
+          "case",
+          ["==", ["get", "mtb_scale"], "0-"],
+          "#8BD7AE",
+          ["==", ["get", "mtb_scale"], "0"],
+          "#75E009",
+          ["==", ["get", "mtb_scale"], "1"],
+          "#E3E800",
+          ["==", ["get", "mtb_scale"], "2"],
+          "#FEB13E",
+          ["==", ["get", "mtb_scale"], "3"],
+          "#FF6774",
+          ["==", ["get", "mtb_scale"], "4"],
+          "#F20BAB",
+          ["==", ["get", "mtb_scale"], "5"],
+          "#BF1CF5",
+          ["==", ["get", "mtb_scale"], "6"],
+          "#8100AC",
+          "#FFFFFF"
+        ],
+        "line-width": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          11,
+          [
+            "case",
+            ["==", ["get", "width_cat"], "a"],
+            1,
+            ["==", ["get", "width_cat"], "b"],
+            1.5,
+            ["==", ["get", "width_cat"], "c"],
+            2,
+            ["==", ["get", "width_cat"], "d"],
+            2,
+            1.5
+          ],
+          14,
+          [
+            "case",
+            ["==", ["get", "width_cat"], "a"],
+            1.3,
+            ["==", ["get", "width_cat"], "b"],
+            2,
+            ["==", ["get", "width_cat"], "c"],
+            3,
+            ["==", ["get", "width_cat"], "d"],
+            3,
+            2.5
+          ],
+          17,
+          [
+            "case",
+            ["==", ["get", "width_cat"], "a"],
+            3,
+            ["==", ["get", "width_cat"], "b"],
+            6,
+            ["==", ["get", "width_cat"], "c"],
+            9,
+            ["==", ["get", "width_cat"], "d"],
+            9,
+            6
+          ]
+        ],
+        "line-opacity": ["interpolate", ["linear"], ["zoom"], 11, 0, 12, 1]
+      }
+    },
+    {
+      "id": "hw-path-line-bv",
+      "type": "line",
+      "metadata": {
+        "mapbox:group": "1444849345966.4436",
+        "maputnik:comment": "Line for paths with normal (unknown or known good+) visibility.",
+        "trailmap:ways_only": true
+      },
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "minzoom": 14,
+      "filter": [
+        "all",
+        ["==", "$type", "LineString"],
+        ["!in", "tunnel"],
+        ["==", "class", "path"],
+        ["!in", "width_cat", "d"],
+        ["!in", "subclass", "cycleway", "footway", "pedestrian", "steps"],
+        ["in", "trail_visibility", "no", "horrible", "bad", "intermediate"]
+      ],
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "#000000",
+        "line-dasharray": [0.8, 1.5],
+        "line-width": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          14,
+          [
+            "case",
+            ["==", ["get", "width_cat"], "a"],
+            0.8,
+            ["==", ["get", "width_cat"], "b"],
+            1,
+            ["==", ["get", "width_cat"], "c"],
+            1.8,
+            ["==", ["get", "width_cat"], "d"],
+            1.8,
+            1
+          ],
+          16,
+          [
+            "case",
+            ["==", ["get", "width_cat"], "a"],
+            1,
+            ["==", ["get", "width_cat"], "b"],
+            1.8,
+            ["==", ["get", "width_cat"], "c"],
+            3,
+            ["==", ["get", "width_cat"], "d"],
+            3,
+            1
+          ],
+          17,
+          [
+            "case",
+            ["==", ["get", "width_cat"], "a"],
+            1,
+            ["==", ["get", "width_cat"], "b"],
+            2,
+            ["==", ["get", "width_cat"], "c"],
+            3.5,
+            ["==", ["get", "width_cat"], "d"],
+            3.5,
+            2
+          ]
+        ],
+        "line-opacity": ["interpolate", ["linear"], ["zoom"], 13, 0, 14, 1]
+      }
+    },
+    {
+      "id": "hw-path-line-gv",
+      "type": "line",
+      "metadata": {
+        "mapbox:group": "1444849345966.4436",
+        "maputnik:comment": "Line for paths with normal (unknown or known good+) visibility.",
+        "trailmap:ways_only": true
+      },
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "minzoom": 13,
+      "filter": [
+        "all",
+        ["==", "$type", "LineString"],
+        ["!in", "brunnel", "bridge", "tunnel"],
+        ["==", "class", "path"],
+        ["!in", "width_cat", "d"],
+        ["!in", "subclass", "cycleway", "footway", "pedestrian", "steps"],
+        ["!in", "trail_visibility", "no", "horrible", "bad", "intermediate"]
+      ],
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "#000000",
+        "line-dasharray": [2.5, 2],
+        "line-width": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          14,
+          [
+            "case",
+            ["==", ["get", "width_cat"], "a"],
+            0.8,
+            ["==", ["get", "width_cat"], "b"],
+            1,
+            ["==", ["get", "width_cat"], "c"],
+            1.8,
+            ["==", ["get", "width_cat"], "d"],
+            1.8,
+            1
+          ],
+          16,
+          [
+            "case",
+            ["==", ["get", "width_cat"], "a"],
+            1,
+            ["==", ["get", "width_cat"], "b"],
+            1.8,
+            ["==", ["get", "width_cat"], "c"],
+            3,
+            ["==", ["get", "width_cat"], "d"],
+            3,
+            1
+          ],
+          17,
+          [
+            "case",
+            ["==", ["get", "width_cat"], "a"],
+            1,
+            ["==", ["get", "width_cat"], "b"],
+            2,
+            ["==", ["get", "width_cat"], "c"],
+            3.5,
+            ["==", ["get", "width_cat"], "d"],
+            3.5,
+            2
+          ]
+        ],
+        "line-opacity": ["interpolate", ["linear"], ["zoom"], 12, 0, 13, 1]
+      }
+    },
+    {
+      "id": "bridge-path/track/cw/fw-railings",
+      "type": "line",
+      "metadata": {
+        "mapbox:group": "1444849334699.1902",
+        "trailmap:ways_only": true
+      },
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "filter": [
+        "all",
+        ["==", "$type", "LineString"],
+        ["==", "brunnel", "bridge"],
+        ["==", "class", "path"]
+      ],
+      "paint": {
+        "line-color": "#000000",
+        "line-width": {
+          "base": 1.2,
+          "stops": [
+            [14, 1.6],
+            [17, 14]
+          ]
+        }
+      }
+    },
+    {
+      "id": "bridge-path/track/cw/fw-floor",
+      "type": "line",
+      "metadata": {
+        "mapbox:group": "1444849334699.1902",
+        "trailmap:ways_only": true
+      },
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "filter": [
+        "all",
+        ["==", "$type", "LineString"],
+        ["==", "brunnel", "bridge"],
+        ["in", "class", "path", "track"]
+      ],
+      "paint": {
+        "line-color": "#f8f4f0",
+        "line-width": {
+          "base": 1.2,
+          "stops": [
+            [14, 1.2],
+            [17, 12]
+          ]
+        }
+      }
+    },
+    {
+      "id": "bridge-path-case",
+      "type": "line",
+      "metadata": {
+        "mapbox:group": "1444849345966.4436",
+        "trailmap:ways_only": true
+      },
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "minzoom": 11,
+      "filter": [
+        "all",
+        ["==", "$type", "LineString"],
+        ["==", "brunnel", "bridge"],
+        ["==", "class", "path"],
+        ["!=", "subclass", "cycleway"]
+      ],
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": [
+          "case",
+          ["==", ["get", "mtb_scale"], "0-"],
+          "#8BD7AE",
+          ["==", ["get", "mtb_scale"], "0"],
+          "#75E009",
+          ["==", ["get", "mtb_scale"], "1"],
+          "#E3E800",
+          ["==", ["get", "mtb_scale"], "2"],
+          "#FEB13E",
+          ["==", ["get", "mtb_scale"], "3"],
+          "#FF4454",
+          ["==", ["get", "mtb_scale"], "4"],
+          "#F20BAB",
+          ["==", ["get", "mtb_scale"], "5"],
+          "#BF1CF5",
+          ["==", ["get", "mtb_scale"], "6"],
+          "#8100AC",
+          "#000000"
+        ],
+        "line-width": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          11,
+          [
+            "case",
+            ["==", ["get", "width_cat"], "a"],
+            1,
+            ["==", ["get", "width_cat"], "b"],
+            1.5,
+            ["==", ["get", "width_cat"], "c"],
+            2,
+            ["==", ["get", "width_cat"], "d"],
+            2,
+            1.5
+          ],
+          14,
+          [
+            "case",
+            ["==", ["get", "width_cat"], "a"],
+            1.3,
+            ["==", ["get", "width_cat"], "b"],
+            2,
+            ["==", ["get", "width_cat"], "c"],
+            3,
+            ["==", ["get", "width_cat"], "d"],
+            3,
+            2.5
+          ],
+          17,
+          [
+            "case",
+            ["==", ["get", "width_cat"], "a"],
+            3,
+            ["==", ["get", "width_cat"], "b"],
+            6,
+            ["==", ["get", "width_cat"], "c"],
+            9,
+            ["==", ["get", "width_cat"], "d"],
+            9,
+            6
+          ]
+        ],
+        "line-opacity": ["case", ["has", "mtb_scale"], 1, 0]
+      }
+    },
+    {
+      "id": "bridge-track-case",
+      "type": "line",
+      "metadata": {
+        "mapbox:group": "1444849345966.4436",
+        "trailmap:ways_only": true
+      },
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "minzoom": 11,
+      "filter": [
+        "all",
+        ["==", "$type", "LineString"],
+        ["==", "brunnel", "bridge"],
+        ["==", "class", "track"]
+      ],
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": [
+          "case",
+          ["==", ["get", "mtb_scale"], "0-"],
+          "#8BD7AE",
+          ["==", ["get", "mtb_scale"], "0"],
+          "#75E009",
+          ["==", ["get", "mtb_scale"], "1"],
+          "#E3E800",
+          ["==", ["get", "mtb_scale"], "2"],
+          "#FEB13E",
+          ["==", ["get", "mtb_scale"], "3"],
+          "#FF4454",
+          ["==", ["get", "mtb_scale"], "4"],
+          "#F20BAB",
+          ["==", ["get", "mtb_scale"], "5"],
+          "#BF1CF5",
+          ["==", ["get", "mtb_scale"], "6"],
+          "#8100AC",
+          "#000000"
+        ],
+        "line-width": {
+          "base": 1,
+          "stops": [
+            [11, 1.5],
+            [14, 3],
+            [17, 9]
+          ]
+        },
+        "line-opacity": ["case", ["has", "mtb_scale"], 1, 0]
+      }
+    },
+    {
+      "id": "bridge-path-line",
+      "type": "line",
+      "metadata": {
+        "mapbox:group": "1444849334699.1902",
+        "trailmap:ways_only": true
+      },
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "filter": [
+        "all",
+        ["==", "$type", "LineString"],
+        ["==", "brunnel", "bridge"],
+        ["==", "class", "path"],
+        ["!in", "subclass", "cycleway", "footway", "steps"],
+        ["!in", "trail_visibility", "no", "horrible", "bad", "intermediate"]
+      ],
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "#000000",
+        "line-dasharray": [2.5, 2.5],
+        "line-width": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          14,
+          [
+            "case",
+            ["==", ["get", "width_cat"], "a"],
+            0.8,
+            ["==", ["get", "width_cat"], "b"],
+            1,
+            ["==", ["get", "width_cat"], "c"],
+            1.5,
+            ["==", ["get", "width_cat"], "d"],
+            1.5,
+            1.5
+          ],
+          17,
+          [
+            "case",
+            ["==", ["get", "width_cat"], "a"],
+            1,
+            ["==", ["get", "width_cat"], "b"],
+            2,
+            ["==", ["get", "width_cat"], "c"],
+            3,
+            ["==", ["get", "width_cat"], "d"],
+            3,
+            2
+          ]
+        ]
+      }
+    },
+    {
+      "id": "bridge-track-line",
+      "type": "line",
+      "metadata": {
+        "mapbox:group": "1444849345966.4436",
+        "trailmap:ways_only": true
+      },
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "minzoom": 10,
+      "filter": [
+        "all",
+        ["==", "$type", "LineString"],
+        ["==", "brunnel", "bridge"],
+        ["any", ["in", "class", "track"], ["==", "width_cat", "d"]],
+        ["!in", "subclass", "cycleway", "footway"]
+      ],
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "#000000",
+        "line-dasharray": [6, 1.5],
+        "line-width": {
+          "base": 1,
+          "stops": [
+            [10, 0.5],
+            [14, 1],
+            [17, 3.5]
+          ]
+        },
+        "line-opacity": {
+          "stops": [
+            [10, 0],
+            [11, 1]
+          ]
+        }
       }
     },
     {
       "id": "polku, pinnalla",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -654,12 +1412,23 @@
       "paint": {
         "line-color": "#ccc",
         "line-dasharray": [2, 1.5],
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1, 20, 20]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          1,
+          20,
+          20
+        ]
       }
     },
     {
       "id": "kavely- ja pyoratie, paallystamaton, pinnalla",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -673,12 +1442,23 @@
       "paint": {
         "line-color": "rgba(53, 58, 197, 1)",
         "line-dasharray": [1.75, 1],
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1, 20, 20]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          1,
+          20,
+          20
+        ]
       }
     },
     {
       "id": "kavely- ja pyoratie, paallystetty, pinnalla",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -691,12 +1471,23 @@
       "layout": {},
       "paint": {
         "line-color": "#90ca6f",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1, 20, 20]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          1,
+          20,
+          20
+        ]
       }
     },
     {
       "id": "tiet_1a_1b_reuna, pinnalla",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -708,12 +1499,23 @@
       "layout": {},
       "paint": {
         "line-color": "#0A0A0A",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 6, 20, 84]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          6,
+          20,
+          84
+        ]
       }
     },
     {
       "id": "tiet_2a_2b_reuna, pinnalla",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -725,12 +1527,23 @@
       "layout": {},
       "paint": {
         "line-color": "#0A0A0A",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 4, 20, 63]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          4,
+          20,
+          63
+        ]
       }
     },
     {
       "id": "tiet_3a_3b_reuna, pinnalla",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -742,12 +1555,23 @@
       "layout": {},
       "paint": {
         "line-color": "#0A0A0A",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 3, 20, 30]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          3,
+          20,
+          30
+        ]
       }
     },
     {
       "id": "rautatie_reuna, pinnalla",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -765,12 +1589,23 @@
       "layout": {},
       "paint": {
         "line-color": "#91EFF3",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 2, 20, 40]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          2,
+          20,
+          40
+        ]
       }
     },
     {
       "id": "tiet_1a_1b_taytto, pinnalla",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -784,12 +1619,23 @@
       },
       "paint": {
         "line-color": "#DA2D2D",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 4, 20, 80]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          4,
+          20,
+          80
+        ]
       }
     },
     {
       "id": "tiet_2a_2b_taytto, pinnalla",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -801,12 +1647,23 @@
       "layout": {},
       "paint": {
         "line-color": "#DA2D2D",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 2.5, 20, 60]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          2.5,
+          20,
+          60
+        ]
       }
     },
     {
       "id": "tiet_3a_3b_taytto, pinnalla",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -820,12 +1677,23 @@
       },
       "paint": {
         "line-color": "#DA2D2D",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1.5, 20, 30]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          1.5,
+          20,
+          30
+        ]
       }
     },
     {
       "id": "rautatie_taytto, pinnalla",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -843,12 +1711,23 @@
       "layout": {},
       "paint": {
         "line-dasharray": [2, 2],
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1.5, 20, 30]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          1.5,
+          20,
+          30
+        ]
       }
     },
     {
       "id": "ajotie, sillalla 1",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -860,12 +1739,23 @@
       "layout": {},
       "paint": {
         "line-color": "#ccc",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1, 20, 20]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          1,
+          20,
+          20
+        ]
       }
     },
     {
       "id": "ajopolku, sillalla 1",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -878,12 +1768,23 @@
       "paint": {
         "line-color": "#ccc",
         "line-dasharray": [12, 2],
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1, 20, 20]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          1,
+          20,
+          20
+        ]
       }
     },
     {
       "id": "polku, sillalla 1",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -896,12 +1797,23 @@
       "paint": {
         "line-color": "#ccc",
         "line-dasharray": [2, 1.5],
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1, 20, 20]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          1,
+          20,
+          20
+        ]
       }
     },
     {
       "id": "kavely- ja pyoratie, paallystamaton, sillalla 1",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -915,12 +1827,23 @@
       "paint": {
         "line-color": "#90ca6f",
         "line-dasharray": [3, 1.5],
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 0.5, 20, 15]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          0.5,
+          20,
+          15
+        ]
       }
     },
     {
       "id": "kavely- ja pyoratie, paallystetty, sillalla 1",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -933,12 +1856,23 @@
       "layout": {},
       "paint": {
         "line-color": "#90ca6f",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 0.5, 20, 15]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          0.5,
+          20,
+          15
+        ]
       }
     },
     {
       "id": "tiet_1a_1b_reuna, sillalla 1",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -950,12 +1884,23 @@
       "layout": {},
       "paint": {
         "line-color": "#0A0A0A",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 6, 20, 84]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          6,
+          20,
+          84
+        ]
       }
     },
     {
       "id": "tiet_2a_2b_reuna, sillalla 1",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -967,12 +1912,23 @@
       "layout": {},
       "paint": {
         "line-color": "#ccc",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 4, 20, 63]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          4,
+          20,
+          63
+        ]
       }
     },
     {
       "id": "tiet_3a_3b_reuna, sillalla 1",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -984,12 +1940,23 @@
       "layout": {},
       "paint": {
         "line-color": "#ccc",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 3, 20, 30]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          3,
+          20,
+          30
+        ]
       }
     },
     {
       "id": "rautatie_reuna, sillalla 1",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1007,12 +1974,23 @@
       "layout": {},
       "paint": {
         "line-color": "#ccc",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 2, 20, 40]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          2,
+          20,
+          40
+        ]
       }
     },
     {
       "id": "tiet_1a_1b_taytto, sillalla 1",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1024,12 +2002,23 @@
       "layout": {},
       "paint": {
         "line-color": "#DA2D2D",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 4, 20, 80]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          4,
+          20,
+          80
+        ]
       }
     },
     {
       "id": "tiet_2a_2b_taytto, sillalla 1",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1041,12 +2030,23 @@
       "layout": {},
       "paint": {
         "line-color": "rgba(49, 48, 48, 1)",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 2.5, 20, 60]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          2.5,
+          20,
+          60
+        ]
       }
     },
     {
       "id": "tiet_3a_3b_taytto, sillalla 1",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1058,12 +2058,23 @@
       "layout": {},
       "paint": {
         "line-color": "#eeeeee",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1.5, 20, 30]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          1.5,
+          20,
+          30
+        ]
       }
     },
     {
       "id": "rautatie_taytto, sillalla 1",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1082,12 +2093,23 @@
       "paint": {
         "line-color": "#eeeeee",
         "line-dasharray": [2, 2],
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1.5, 20, 30]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          1.5,
+          20,
+          30
+        ]
       }
     },
     {
       "id": "ajotie, sillalla 2",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1099,12 +2121,23 @@
       "layout": {},
       "paint": {
         "line-color": "#ccc",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1, 20, 20]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          1,
+          20,
+          20
+        ]
       }
     },
     {
       "id": "ajopolku, sillalla 2",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1117,12 +2150,23 @@
       "paint": {
         "line-color": "#ccc",
         "line-dasharray": [12, 2],
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1, 20, 20]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          1,
+          20,
+          20
+        ]
       }
     },
     {
       "id": "polku, sillalla 2",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1135,12 +2179,23 @@
       "paint": {
         "line-color": "#ccc",
         "line-dasharray": [2, 1.5],
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1, 20, 20]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          1,
+          20,
+          20
+        ]
       }
     },
     {
       "id": "kavely- ja pyoratie, paallystamaton, sillalla 2",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1154,12 +2209,23 @@
       "paint": {
         "line-color": "#90ca6f",
         "line-dasharray": [3, 1.5],
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 0.5, 20, 15]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          0.5,
+          20,
+          15
+        ]
       }
     },
     {
       "id": "kavely- ja pyoratie, paallystetty, sillalla 2",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1172,12 +2238,23 @@
       "layout": {},
       "paint": {
         "line-color": "#90ca6f",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 0.5, 20, 15]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          0.5,
+          20,
+          15
+        ]
       }
     },
     {
       "id": "tiet_1a_1b_reuna, sillalla 2",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1189,12 +2266,23 @@
       "layout": {},
       "paint": {
         "line-color": "#ccc",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 6, 20, 84]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          6,
+          20,
+          84
+        ]
       }
     },
     {
       "id": "tiet_2a_2b_reuna, sillalla 2",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1206,12 +2294,23 @@
       "layout": {},
       "paint": {
         "line-color": "#ccc",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 4, 20, 63]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          4,
+          20,
+          63
+        ]
       }
     },
     {
       "id": "tiet_3a_3b_reuna, sillalla 2",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1223,12 +2322,23 @@
       "layout": {},
       "paint": {
         "line-color": "#ccc",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 3, 20, 30]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          3,
+          20,
+          30
+        ]
       }
     },
     {
       "id": "rautatie_reuna, sillalla 2",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1246,12 +2356,23 @@
       "layout": {},
       "paint": {
         "line-color": "#ccc",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 2, 20, 40]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          2,
+          20,
+          40
+        ]
       }
     },
     {
       "id": "tiet_1a_1b_taytto, sillalla 2",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1263,12 +2384,23 @@
       "layout": {},
       "paint": {
         "line-color": "#eeeeee",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 4, 20, 80]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          4,
+          20,
+          80
+        ]
       }
     },
     {
       "id": "tiet_2a_2b_taytto, sillalla 2",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1280,12 +2412,23 @@
       "layout": {},
       "paint": {
         "line-color": "#eeeeee",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 2.5, 20, 60]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          2.5,
+          20,
+          60
+        ]
       }
     },
     {
       "id": "tiet_3a_3b_taytto, sillalla 2",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1297,12 +2440,23 @@
       "layout": {},
       "paint": {
         "line-color": "#eeeeee",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1.5, 20, 30]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          1.5,
+          20,
+          30
+        ]
       }
     },
     {
       "id": "rautatie_taytto, sillalla 2",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1321,12 +2475,23 @@
       "paint": {
         "line-color": "#eeeeee",
         "line-dasharray": [2, 2],
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1.5, 20, 30]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          1.5,
+          20,
+          30
+        ]
       }
     },
     {
       "id": "ajotie, sillalla 3",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1338,12 +2503,23 @@
       "layout": {},
       "paint": {
         "line-color": "#ccc",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1, 20, 20]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          1,
+          20,
+          20
+        ]
       }
     },
     {
       "id": "ajopolku, sillalla 3",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1356,12 +2532,23 @@
       "paint": {
         "line-color": "#ccc",
         "line-dasharray": [12, 2],
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1, 20, 20]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          1,
+          20,
+          20
+        ]
       }
     },
     {
       "id": "polku, sillalla 3",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1374,12 +2561,23 @@
       "paint": {
         "line-color": "#ccc",
         "line-dasharray": [2, 1.5],
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1, 20, 20]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          1,
+          20,
+          20
+        ]
       }
     },
     {
       "id": "kavely- ja pyoratie, paallystamaton, sillalla 3",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1393,12 +2591,23 @@
       "paint": {
         "line-color": "#90ca6f",
         "line-dasharray": [3, 1.5],
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 0.5, 20, 15]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          0.5,
+          20,
+          15
+        ]
       }
     },
     {
       "id": "kavely- ja pyoratie, paallystetty, sillalla 3",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1411,12 +2620,23 @@
       "layout": {},
       "paint": {
         "line-color": "#90ca6f",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 0.5, 20, 15]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          0.5,
+          20,
+          15
+        ]
       }
     },
     {
       "id": "tiet_1a_1b_reuna, sillalla 3",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1428,12 +2648,23 @@
       "layout": {},
       "paint": {
         "line-color": "#ccc",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 6, 20, 84]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          6,
+          20,
+          84
+        ]
       }
     },
     {
       "id": "tiet_2a_2b_reuna, sillalla 3",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1445,12 +2676,23 @@
       "layout": {},
       "paint": {
         "line-color": "#ccc",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 4, 20, 63]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          4,
+          20,
+          63
+        ]
       }
     },
     {
       "id": "tiet_3a_3b_reuna, sillalla 3",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1462,12 +2704,23 @@
       "layout": {},
       "paint": {
         "line-color": "#ccc",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 3, 20, 30]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          3,
+          20,
+          30
+        ]
       }
     },
     {
       "id": "rautatie_reuna, sillalla 3",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1485,12 +2738,23 @@
       "layout": {},
       "paint": {
         "line-color": "#ccc",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 2, 20, 40]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          2,
+          20,
+          40
+        ]
       }
     },
     {
       "id": "tiet_1a_1b_taytto, sillalla 3",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1502,12 +2766,23 @@
       "layout": {},
       "paint": {
         "line-color": "#eeeeee",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 4, 20, 80]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          4,
+          20,
+          80
+        ]
       }
     },
     {
       "id": "tiet_2a_2b_taytto, sillalla 3",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1519,12 +2794,23 @@
       "layout": {},
       "paint": {
         "line-color": "#eeeeee",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 2.5, 20, 60]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          2.5,
+          20,
+          60
+        ]
       }
     },
     {
       "id": "tiet_3a_3b_taytto, sillalla 3",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1536,12 +2822,23 @@
       "layout": {},
       "paint": {
         "line-color": "#eeeeee",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1.5, 20, 30]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          1.5,
+          20,
+          30
+        ]
       }
     },
     {
       "id": "rautatie_taytto, sillalla 3",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1560,12 +2857,23 @@
       "paint": {
         "line-color": "#eeeeee",
         "line-dasharray": [2, 2],
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1.5, 20, 30]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          1.5,
+          20,
+          30
+        ]
       }
     },
     {
       "id": "ajotie, sillalla 4",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1577,12 +2885,23 @@
       "layout": {},
       "paint": {
         "line-color": "#ccc",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1, 20, 20]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          1,
+          20,
+          20
+        ]
       }
     },
     {
       "id": "ajopolku, sillalla 4",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1595,12 +2914,23 @@
       "paint": {
         "line-color": "#ccc",
         "line-dasharray": [12, 2],
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1, 20, 20]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          1,
+          20,
+          20
+        ]
       }
     },
     {
       "id": "polku, sillalla 4",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1613,12 +2943,23 @@
       "paint": {
         "line-color": "#ccc",
         "line-dasharray": [2, 1.5],
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1, 20, 20]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          1,
+          20,
+          20
+        ]
       }
     },
     {
       "id": "kavely- ja pyoratie, paallystamaton, sillalla 4",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1632,12 +2973,23 @@
       "paint": {
         "line-color": "#90ca6f",
         "line-dasharray": [3, 1.5],
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 0.5, 20, 15]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          0.5,
+          20,
+          15
+        ]
       }
     },
     {
       "id": "kavely- ja pyoratie, paallystetty, sillalla 4",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1650,12 +3002,23 @@
       "layout": {},
       "paint": {
         "line-color": "#90ca6f",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 0.5, 20, 15]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          0.5,
+          20,
+          15
+        ]
       }
     },
     {
       "id": "tiet_1a_1b_reuna, sillalla 4",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1667,12 +3030,23 @@
       "layout": {},
       "paint": {
         "line-color": "#ccc",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 6, 20, 84]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          6,
+          20,
+          84
+        ]
       }
     },
     {
       "id": "tiet_2a_2b_reuna, sillalla 4",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1684,12 +3058,23 @@
       "layout": {},
       "paint": {
         "line-color": "#ccc",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 4, 20, 63]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          4,
+          20,
+          63
+        ]
       }
     },
     {
       "id": "tiet_3a_3b_reuna, sillalla 4",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1701,12 +3086,23 @@
       "layout": {},
       "paint": {
         "line-color": "#ccc",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 3, 20, 30]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          3,
+          20,
+          30
+        ]
       }
     },
     {
       "id": "rautatie_reuna, sillalla 4",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1724,12 +3120,23 @@
       "layout": {},
       "paint": {
         "line-color": "#ccc",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 2, 20, 40]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          2,
+          20,
+          40
+        ]
       }
     },
     {
       "id": "tiet_1a_1b_taytto, sillalla 4",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1741,12 +3148,23 @@
       "layout": {},
       "paint": {
         "line-color": "#eeeeee",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 4, 20, 80]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          4,
+          20,
+          80
+        ]
       }
     },
     {
       "id": "tiet_2a_2b_taytto, sillalla 4",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1758,12 +3176,23 @@
       "layout": {},
       "paint": {
         "line-color": "#eeeeee",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 2.5, 20, 60]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          2.5,
+          20,
+          60
+        ]
       }
     },
     {
       "id": "tiet_3a_3b_taytto, sillalla 4",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1775,12 +3204,23 @@
       "layout": {},
       "paint": {
         "line-color": "#eeeeee",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1.5, 20, 30]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          1.5,
+          20,
+          30
+        ]
       }
     },
     {
       "id": "rautatie_taytto, sillalla 4",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1799,12 +3239,23 @@
       "paint": {
         "line-color": "#eeeeee",
         "line-dasharray": [2, 2],
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1.5, 20, 30]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          1.5,
+          20,
+          30
+        ]
       }
     },
     {
       "id": "ajotie, sillalla 5",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1816,12 +3267,23 @@
       "layout": {},
       "paint": {
         "line-color": "#ccc",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1, 20, 20]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          1,
+          20,
+          20
+        ]
       }
     },
     {
       "id": "ajopolku, sillalla 5",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1834,12 +3296,23 @@
       "paint": {
         "line-color": "#ccc",
         "line-dasharray": [12, 2],
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1, 20, 20]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          1,
+          20,
+          20
+        ]
       }
     },
     {
       "id": "polku, sillalla 5",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1852,12 +3325,23 @@
       "paint": {
         "line-color": "#ccc",
         "line-dasharray": [2, 1.5],
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1, 20, 20]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          1,
+          20,
+          20
+        ]
       }
     },
     {
       "id": "kavely- ja pyoratie, paallystamaton, sillalla 5",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1871,12 +3355,23 @@
       "paint": {
         "line-color": "#90ca6f",
         "line-dasharray": [3, 1.5],
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 0.5, 20, 15]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          0.5,
+          20,
+          15
+        ]
       }
     },
     {
       "id": "kavely- ja pyoratie, paallystetty, sillalla 5",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1889,12 +3384,23 @@
       "layout": {},
       "paint": {
         "line-color": "#90ca6f",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 0.5, 20, 15]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          0.5,
+          20,
+          15
+        ]
       }
     },
     {
       "id": "tiet_1a_1b_reuna, sillalla 5",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1906,12 +3412,23 @@
       "layout": {},
       "paint": {
         "line-color": "#ccc",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 6, 20, 84]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          6,
+          20,
+          84
+        ]
       }
     },
     {
       "id": "tiet_2a_2b_reuna, sillalla 5",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1923,12 +3440,23 @@
       "layout": {},
       "paint": {
         "line-color": "#ccc",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 4, 20, 63]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          4,
+          20,
+          63
+        ]
       }
     },
     {
       "id": "tiet_3a_3b_reuna, sillalla 5",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1940,12 +3468,23 @@
       "layout": {},
       "paint": {
         "line-color": "#ccc",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 3, 20, 30]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          3,
+          20,
+          30
+        ]
       }
     },
     {
       "id": "rautatie_reuna, sillalla 5",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1963,12 +3502,23 @@
       "layout": {},
       "paint": {
         "line-color": "#ccc",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 2, 20, 40]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          2,
+          20,
+          40
+        ]
       }
     },
     {
       "id": "tiet_1a_1b_taytto, sillalla 5",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1980,12 +3530,23 @@
       "layout": {},
       "paint": {
         "line-color": "#eeeeee",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 4, 20, 80]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          4,
+          20,
+          80
+        ]
       }
     },
     {
       "id": "tiet_2a_2b_taytto, sillalla 5",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -1997,12 +3558,23 @@
       "layout": {},
       "paint": {
         "line-color": "#eeeeee",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 2.5, 20, 60]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          2.5,
+          20,
+          60
+        ]
       }
     },
     {
       "id": "tiet_3a_3b_taytto, sillalla 5",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -2014,12 +3586,23 @@
       "layout": {},
       "paint": {
         "line-color": "#eeeeee",
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1.5, 20, 30]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          1.5,
+          20,
+          30
+        ]
       }
     },
     {
       "id": "rautatie_taytto, sillalla 5",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -2038,12 +3621,23 @@
       "paint": {
         "line-color": "#eeeeee",
         "line-dasharray": [2, 2],
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1.5, 20, 30]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          1.5,
+          20,
+          30
+        ]
       }
     },
     {
       "id": "lautta ja lossi",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -2055,12 +3649,23 @@
       "paint": {
         "line-color": "#ccc",
         "line-dasharray": [6, 8],
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1.5, 20, 30]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          1.5,
+          20,
+          30
+        ]
       }
     },
     {
       "id": "laiva ja venevaylat",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": [
@@ -2072,12 +3677,23 @@
       "paint": {
         "line-color": "#ccc",
         "line-dasharray": [6, 8],
-        "line-width": ["interpolate", ["exponential", 1.55], ["zoom"], 6, 1, 20, 20]
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          1,
+          20,
+          20
+        ]
       }
     },
     {
       "id": "hallintorajat",
       "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "hallintoalue",
       "paint": {
@@ -2105,6 +3721,9 @@
     {
       "id": "tienimet",
       "type": "symbol",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "liikenne",
       "filter": ["all", ["<", "tasosijainti", 1]],
@@ -2124,6 +3743,9 @@
     {
       "id": "nimisto-maasto-vedet",
       "type": "symbol",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "nimisto",
       "filter": ["match", ["get", "teema"], ["Maasto", "Vedet"], true, false],
@@ -2161,20 +3783,35 @@
       "paint": {
         "text-halo-width": 2,
         "text-halo-color": "rgba(255, 255, 255, 1)",
-        "text-color": ["match", ["get", "teema"], "Vedet", "hsl(251, 71%, 50%)", "hsl(0, 0%, 20%)"],
+        "text-color": [
+          "match",
+          ["get", "teema"],
+          "Vedet",
+          "hsl(251, 71%, 50%)",
+          "hsl(0, 0%, 20%)"
+        ],
         "text-halo-blur": 1
       }
     },
     {
       "id": "nimisto",
       "type": "symbol",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "nimisto",
       "filter": [
         "all",
         ["!", ["match", ["get", "teema"], ["Maasto", "Vedet"], true, false]],
         ["!=", ["get", "alaryhma"], "Hallintoalueet"],
-        ["match", ["get", "laji"], ["Kansallispuisto", "Luonnonpuisto"], false, true]
+        [
+          "match",
+          ["get", "laji"],
+          ["Kansallispuisto", "Luonnonpuisto"],
+          false,
+          true
+        ]
       ],
       "layout": {
         "text-transform": [
@@ -2226,9 +3863,18 @@
     {
       "id": "nimisto_luonnopuistot",
       "type": "symbol",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "nimisto",
-      "filter": ["match", ["get", "laji"], ["Kansallispuisto", "Luonnonpuisto"], true, false],
+      "filter": [
+        "match",
+        ["get", "laji"],
+        ["Kansallispuisto", "Luonnonpuisto"],
+        true,
+        false
+      ],
       "layout": {
         "text-field": [
           "coalesce",
@@ -2253,6 +3899,9 @@
     {
       "id": "nimisto_kunnat",
       "type": "symbol",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "taustakartta",
       "source-layer": "nimisto",
       "filter": [
@@ -2271,7 +3920,15 @@
         ],
         "icon-ignore-placement": false,
         "icon-allow-overlap": false,
-        "text-size": ["interpolate", ["exponential", 1.35], ["zoom"], 1, 16, 14, 28],
+        "text-size": [
+          "interpolate",
+          ["exponential", 1.35],
+          ["zoom"],
+          1,
+          16,
+          14,
+          28
+        ],
         "text-font": [
           "step",
           ["zoom"],
@@ -2285,6 +3942,81 @@
         "text-halo-color": "rgb(255, 255, 255)",
         "text-color": "hsl(0, 0%, 25%)",
         "text-halo-blur": 1
+      }
+    },
+    {
+      "id": "bicycle-routes",
+      "type": "line",
+      "source": "openmaptiles",
+      "source-layer": "route_ext",
+      "filter": ["==", "route", "bicycle"],
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round",
+        "visibility": "none"
+      },
+      "paint": {
+        "line-color": "red",
+        "line-dasharray": [1, 1],
+        "line-opacity": 0.5,
+        "line-width": {
+          "base": 1,
+          "stops": [
+            [11, 1.5],
+            [14, 3],
+            [17, 9]
+          ]
+        }
+      }
+    },
+    {
+      "id": "mtb-routes",
+      "type": "line",
+      "source": "openmaptiles",
+      "source-layer": "route_ext",
+      "filter": ["==", "route", "mtb"],
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round",
+        "visibility": "none"
+      },
+      "paint": {
+        "line-color": "blue",
+        "line-dasharray": [1, 1],
+        "line-opacity": 0.5,
+        "line-width": {
+          "base": 1,
+          "stops": [
+            [11, 1.5],
+            [14, 3],
+            [17, 9]
+          ]
+        }
+      }
+    },
+    {
+      "id": "hiking-routes",
+      "type": "line",
+      "source": "openmaptiles",
+      "source-layer": "route_ext",
+      "filter": ["==", "route", "hiking"],
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round",
+        "visibility": "none"
+      },
+      "paint": {
+        "line-color": "blue",
+        "line-dasharray": [1, 1],
+        "line-opacity": 0.5,
+        "line-width": {
+          "base": 1,
+          "stops": [
+            [11, 1.5],
+            [14, 3],
+            [17, 9]
+          ]
+        }
       }
     }
   ],

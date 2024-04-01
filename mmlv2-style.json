@@ -416,12 +416,47 @@
       }
     },
     {
-      "id": "vesisto_alue",
+      "id": "water",
       "type": "fill",
+      "metadata": {
+        "mapbox:group": "1444849382550.77",
+        "trailmap:mtb": true,
+        "trailmap:mtb_winter": true,
+        "trailmap:gravel": true,
+        "trailmap:ways_only": false
+      },
+      "source": "openmaptiles",
+      "source-layer": "water",
+      "filter": ["==", "class", "ocean"],
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "fill-color": "hsl(210, 67%, 85%)"
+      }
+    },
+    {
+      "id": "water-mml",
+      "type": "fill",
+      "metadata": {
+        "mapbox:group": "1444849382550.77",
+        "trailmap:mtb": true,
+        "trailmap:mtb_winter": true,
+        "trailmap:gravel": true,
+        "trailmap:ways_only": false
+      },
       "source": "taustakartta",
       "source-layer": "vesisto_alue",
+      "filter": [
+        "all",
+        ["==", "$type", "Polygon"],
+        ["!in", "kohdeluokka", 36211]
+      ],
+      "layout": {
+        "visibility": "visible"
+      },
       "paint": {
-        "fill-color": "hsl(200, 80%, 85%)"
+        "fill-color": "hsl(210, 67%, 85%)"
       }
     },
     {

@@ -507,12 +507,145 @@
       }
     },
     {
-      "id": "rakennus",
+      "id": "building-osm",
       "type": "fill",
+      "metadata": {
+        "mapbox:group": "1444849364238.8171",
+        "trailmap:mtb": true,
+        "trailmap:mtb_high_contrast": true,
+        "trailmap:mtb_winter": true,
+        "trailmap:gravel": true,
+        "trailmap:mapper": true,
+        "trailmap:ways_only": false
+      },
+      "source": "openmaptiles",
+      "source-layer": "building",
+      "minzoom": 13,
+      "maxzoom": 14.5,
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "fill-antialias": true,
+        "fill-color": "rgba(70, 70, 70, 1)",
+        "fill-opacity": {
+          "base": 1,
+          "stops": [
+            [13, 0],
+            [13.5, 1],
+            [14, 1],
+            [14.5, 0]
+          ]
+        }
+      }
+    },
+    {
+      "id": "building-top-osm",
+      "type": "fill",
+      "metadata": {
+        "mapbox:group": "1444849364238.8171",
+        "trailmap:mtb": true,
+        "trailmap:mtb_high_contrast": true,
+        "trailmap:mtb_winter": true,
+        "trailmap:gravel": true,
+        "trailmap:mapper": true,
+        "trailmap:ways_only": false
+      },
+      "source": "openmaptiles",
+      "source-layer": "building",
+      "minzoom": 13,
+      "maxzoom": 14.5,
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "fill-color": "rgba(70, 70, 70, 1)",
+        "fill-opacity": {
+          "base": 1,
+          "stops": [
+            [13, 0],
+            [13.5, 1],
+            [14, 1],
+            [14.5, 0]
+          ]
+        },
+        "fill-outline-color": "#928e8a",
+        "fill-translate": {
+          "base": 1,
+          "stops": [
+            [14, [0, 0]],
+            [16, [-2, -2]]
+          ]
+        }
+      }
+    },
+    {
+      "id": "building-mml",
+      "type": "fill",
+      "metadata": {
+        "mapbox:group": "1444849364238.8171",
+        "trailmap:mtb": true,
+        "trailmap:mtb_high_contrast": true,
+        "trailmap:mtb_winter": true,
+        "trailmap:gravel": true,
+        "trailmap:mapper": true,
+        "trailmap:ways_only": false
+      },
       "source": "taustakartta",
       "source-layer": "rakennus",
+      "minzoom": 14,
+      "filter": ["==", "$type", "Polygon"],
+      "layout": {
+        "visibility": "visible"
+      },
       "paint": {
-        "fill-color": "rgba(70, 70, 70, 1)"
+        "fill-antialias": true,
+        "fill-color": "rgba(70, 70, 70, 1)",
+        "fill-opacity": {
+          "base": 1,
+          "stops": [
+            [14, 0],
+            [14.5, 1]
+          ]
+        }
+      }
+    },
+    {
+      "id": "building-top-mml",
+      "type": "fill",
+      "metadata": {
+        "mapbox:group": "1444849364238.8171",
+        "trailmap:mtb": true,
+        "trailmap:mtb_high_contrast": true,
+        "trailmap:mtb_winter": true,
+        "trailmap:gravel": true,
+        "trailmap:mapper": true,
+        "trailmap:ways_only": false
+      },
+      "source": "taustakartta",
+      "source-layer": "rakennus",
+      "minzoom": 14,
+      "filter": ["==", "$type", "Polygon"],
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "fill-color": "rgba(70, 70, 70, 1)",
+        "fill-opacity": {
+          "base": 1,
+          "stops": [
+            [14, 0],
+            [14.5, 1]
+          ]
+        },
+        "fill-outline-color": "#928e8a",
+        "fill-translate": {
+          "base": 1,
+          "stops": [
+            [14, [0, 0]],
+            [16, [-2, -2]]
+          ]
+        }
       }
     },
     {
@@ -991,6 +1124,87 @@
       }
     },
     {
+      "id": "hw-track-line",
+      "type": "line",
+      "metadata": {
+        "mapbox:group": "1444849345966.4436",
+        "trailmap:mtb": true,
+        "trailmap:mtb_high_contrast": false,
+        "trailmap:mtb_winter": true,
+        "trailmap:gravel": false,
+        "trailmap:mapper": false,
+        "trailmap:ways_only": true
+      },
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "minzoom": 11,
+      "filter": [
+        "all",
+        ["==", "$type", "LineString"],
+        ["!in", "brunnel", "bridge", "tunnel"],
+        ["any", ["in", "class", "track"], ["==", "width_cat", "d"]],
+        ["!in", "subclass", "cycleway", "pedestrian", "steps"],
+        [
+          "any",
+          ["!=", "subclass", "footway"],
+          ["all", ["==", "subclass", "footway"], ["has", "mtb_scale"]]
+        ]
+      ],
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "#000000",
+        "line-dasharray": [8, 1.5],
+        "line-width": {
+          "base": 1,
+          "stops": [
+            [10, 0.5],
+            [14, 1.3],
+            [16, 3.5],
+            [18, 7]
+          ]
+        },
+        "line-opacity": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          9.5,
+          ["case", ["has", "noexit"], 0.4, 0],
+          10,
+          ["case", ["has", "noexit"], 0.4, 1]
+        ]
+      }
+    },
+    {
+      "id": "ajopolku, pinnalla, case",
+      "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
+      "source": "taustakartta",
+      "source-layer": "liikenne",
+      "filter": [
+        "all",
+        ["==", ["geometry-type"], "LineString"],
+        ["match", ["get", "kohdeluokka"], [12316], true, false],
+        ["match", ["get", "tasosijainti"], [0], true, false]
+      ],
+      "layout": {},
+      "paint": {
+        "line-color": "#EEE",
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          2,
+          20,
+          40
+        ]
+      }
+    },
+    {
       "id": "ajopolku, pinnalla",
       "type": "line",
       "metadata": {
@@ -1039,7 +1253,7 @@
         ["!in", "mtb_scale", "-1"]
       ],
       "layout": {
-        "visibility": "visible"
+        "visibility": "none"
       },
       "paint": {
         "line-color": [
@@ -1325,7 +1539,7 @@
         ["!=", "subclass", "cycleway"]
       ],
       "layout": {
-        "visibility": "visible"
+        "visibility": "none"
       },
       "paint": {
         "line-color": [
@@ -1507,6 +1721,11 @@
       "type": "line",
       "metadata": {
         "mapbox:group": "1444849345966.4436",
+        "trailmap:mtb": true,
+        "trailmap:mtb_high_contrast": false,
+        "trailmap:mtb_winter": true,
+        "trailmap:gravel": true,
+        "trailmap:mapper": false,
         "trailmap:ways_only": true
       },
       "source": "openmaptiles",
@@ -1524,13 +1743,58 @@
       },
       "paint": {
         "line-color": "#000000",
-        "line-dasharray": [6, 1.5],
+        "line-dasharray": [8, 1.5],
         "line-width": {
           "base": 1,
           "stops": [
             [10, 0.5],
             [14, 1],
             [17, 3.5]
+          ]
+        },
+        "line-opacity": {
+          "stops": [
+            [10, 0],
+            [11, 1]
+          ]
+        }
+      }
+    },
+    {
+      "id": "bridge-track-line-hc",
+      "type": "line",
+      "metadata": {
+        "mapbox:group": "1444849345966.4436",
+        "trailmap:mtb": false,
+        "trailmap:mtb_high_contrast": true,
+        "trailmap:mtb_winter": false,
+        "trailmap:gravel": false,
+        "trailmap:mapper": false,
+        "trailmap:ways_only": true
+      },
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "minzoom": 10,
+      "filter": [
+        "all",
+        ["==", "$type", "LineString"],
+        ["==", "brunnel", "bridge"],
+        ["any", ["in", "class", "track"], ["==", "width_cat", "d"]],
+        ["!in", "subclass", "cycleway", "footway"]
+      ],
+      "layout": {
+        "visibility": "none"
+      },
+      "paint": {
+        "line-color": "#000000",
+        "line-dasharray": [8, 1.5],
+        "line-width": {
+          "base": 1,
+          "stops": [
+            [10, 1.3],
+            [14, 2],
+            [16, 5.2],
+            [18, 10.5]
           ]
         },
         "line-opacity": {
@@ -1586,6 +1850,35 @@
         ["match", ["get", "kohdeluokka"], [12314], true, false],
         ["match", ["get", "paallyste"], [1], true, false],
         ["match", ["get", "tasosijainti"], [0], true, false]
+      ],
+      "layout": {},
+      "paint": {
+        "line-color": "rgba(53, 58, 197, 1)",
+        "line-dasharray": [1.75, 1],
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          1,
+          20,
+          20
+        ]
+      }
+    },
+    {
+      "id": "kavely- ja pyoratie, paallystamaton, pinnalla, osm",
+      "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "maxzoom": 14,
+      "filter": [
+        "all",
+        ["==", "$type", "LineString"],
+        ["==", "subclass", "cycleway"]
       ],
       "layout": {},
       "paint": {

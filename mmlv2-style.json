@@ -590,6 +590,35 @@
       }
     },
     {
+      "id": "water-lake-osm",
+      "type": "fill",
+      "metadata": {
+        "mapbox:group": "1444849382550.77",
+        "trailmap:mtb": true,
+        "trailmap:mtb_high_contrast": false,
+        "trailmap:mtb_winter": true,
+        "trailmap:gravel": true,
+        "trailmap:mapper": true,
+        "trailmap:ways_only": false,
+        "trailmap:safe-water-lake": true
+      },
+      "source": "openmaptiles",
+      "source-layer": "water",
+      "filter": [
+        "all",
+        ["==", "$type", "Polygon"],
+        ["in", "class", "river", "lake"],
+        ["!=", "intermittent", 1],
+        ["!=", "brunnel", "tunnel"]
+      ],
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "fill-color": "hsl(210, 67%, 85%)"
+      }
+    },
+    {
       "id": "water-mml",
       "type": "fill",
       "metadata": {

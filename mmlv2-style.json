@@ -651,7 +651,7 @@
         "visibility": "visible"
       },
       "paint": {
-        "line-color": "hsl(210, 67%, 78%)",
+        "line-color": "hsl(210, 67%, 70%)",
         "line-width": [
           "interpolate",
           ["exponential", 1.55],
@@ -659,7 +659,7 @@
           6,
           0.75,
           20,
-          30
+          20
         ]
       }
     },
@@ -690,6 +690,83 @@
       "paint": {
         "line-color": "#c8c4c5",
         "line-width": 0.5
+      }
+    },
+    {
+      "id": "cliffs-line",
+      "type": "line",
+      "metadata": {
+        "maputnik:comment": "34400 = jyrkänne",
+        "trailmap:mtb": true,
+        "trailmap:mtb_high_contrast": true,
+        "trailmap:mtb_winter": true,
+        "trailmap:gravel": true,
+        "trailmap:mapper": true,
+        "trailmap:ways_only": false
+      },
+      "source": "taustakartta",
+      "source-layer": "maasto_viiva",
+      "minzoom": 11,
+      "filter": ["==", "kohdeluokka", 34400],
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "#000000",
+        "line-opacity": {
+          "stops": [
+            [11, 0],
+            [13, 0.5]
+          ]
+        },
+        "line-width": {
+          "stops": [
+            [13, 0.8],
+            [16, 2]
+          ]
+        }
+      }
+    },
+    {
+      "id": "cliffs-dashes",
+      "type": "line",
+      "metadata": {
+        "maputnik:comment": "34400 = jyrkänne",
+        "trailmap:mtb": true,
+        "trailmap:mtb_high_contrast": true,
+        "trailmap:mtb_winter": true,
+        "trailmap:gravel": true,
+        "trailmap:mapper": true,
+        "trailmap:ways_only": false
+      },
+      "source": "taustakartta",
+      "source-layer": "maasto_viiva",
+      "minzoom": 11,
+      "filter": ["==", "kohdeluokka", 34400],
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "#000000",
+        "line-opacity": {
+          "stops": [
+            [11, 0],
+            [13, 0.5]
+          ]
+        },
+        "line-width": {
+          "stops": [
+            [13, 3],
+            [16, 8]
+          ]
+        },
+        "line-dasharray": [0.1, 2],
+        "line-offset": {
+          "stops": [
+            [13, 1.5],
+            [16, 4]
+          ]
+        }
       }
     },
     {
@@ -1644,8 +1721,8 @@
             ["==", ["get", "width_cat"], "c"],
             1.8,
             ["==", ["get", "width_cat"], "d"],
-            1.8,
-            1
+            2,
+            1.2
           ],
           16,
           [
@@ -1657,8 +1734,8 @@
             ["==", ["get", "width_cat"], "c"],
             3,
             ["==", ["get", "width_cat"], "d"],
-            3,
-            1
+            3.2,
+            2.3
           ],
           17,
           [
@@ -1670,8 +1747,8 @@
             ["==", ["get", "width_cat"], "c"],
             3.5,
             ["==", ["get", "width_cat"], "d"],
-            3.5,
-            2
+            3.8,
+            3
           ]
         ],
         "line-opacity": ["interpolate", ["linear"], ["zoom"], 12, 0, 13, 1]

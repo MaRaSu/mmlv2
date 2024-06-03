@@ -7,7 +7,7 @@
   "sources": {
     "taustakartta": {
       "type": "vector",
-      "url": "https://avoin-karttakuva.maanmittauslaitos.fi/vectortiles/tilejson/taustakartta/1.0.0/taustakartta/default/v20/WGS84_Pseudo-Mercator/tilejson.json?api-key=e77a367c-c6f4-417e-870c-b55d156de596"
+      "url": "https://avoin-karttakuva.maanmittauslaitos.fi/vectortiles/tilejson/taustakartta/1.0.0/taustakartta/default/v21/WGS84_Pseudo-Mercator/tilejson.json?api-key=e77a367c-c6f4-417e-870c-b55d156de596"
     },
     "openmaptiles": {
       "type": "vector",
@@ -388,7 +388,7 @@
       },
       "source": "taustakartta",
       "source-layer": "korkeus",
-      "minzoom": 14,
+      "minzoom": 13,
       "maxzoom": 20,
       "filter": ["==", ["%", ["get", "korkeusarvo"], 5000], 0],
       "layout": {
@@ -421,7 +421,7 @@
       "source": "taustakartta",
       "source-layer": "korkeus",
       "minzoom": 8,
-      "maxzoom": 14,
+      "maxzoom": 13,
       "filter": ["!", ["has", "korkeusarvo"]],
       "layout": {
         "visibility": "visible"
@@ -878,7 +878,7 @@
       },
       "source": "taustakartta",
       "source-layer": "rakennus",
-      "minzoom": 14,
+      "minzoom": 13,
       "filter": ["==", "$type", "Polygon"],
       "layout": {
         "visibility": "visible"
@@ -889,8 +889,8 @@
         "fill-opacity": {
           "base": 1,
           "stops": [
-            [14, 0],
-            [14.5, 1]
+            [13, 0],
+            [13.5, 1]
           ]
         }
       }
@@ -909,7 +909,7 @@
       },
       "source": "taustakartta",
       "source-layer": "rakennus",
-      "minzoom": 14,
+      "minzoom": 13,
       "filter": ["==", "$type", "Polygon"],
       "layout": {
         "visibility": "visible"
@@ -919,8 +919,8 @@
         "fill-opacity": {
           "base": 1,
           "stops": [
-            [14, 0],
-            [14.5, 1]
+            [13, 0],
+            [13.5, 1]
           ]
         },
         "fill-outline-color": "#928e8a",

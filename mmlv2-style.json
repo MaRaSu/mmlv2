@@ -4706,7 +4706,7 @@
       "filter": [
         "all",
         ["match", ["get", "teema"], ["Maasto", "Vedet"], true, false],
-        [">", "prioriteetti", 22]
+        [">", ["get", "prioriteetti"], 22]
       ],
       "layout": {
         "text-field": [
@@ -4763,7 +4763,7 @@
       "filter": [
         "all",
         ["match", ["get", "teema"], ["Maasto", "Vedet"], true, false],
-        ["<=", "prioriteetti", 22]
+        ["<=", ["get", "prioriteetti"], 22]
       ],
       "layout": {
         "text-field": [

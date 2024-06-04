@@ -298,14 +298,21 @@
       "source": "taustakartta",
       "source-layer": "maankaytto",
       "filter": [
-        "match",
-        ["get", "kohdeluokka"],
-        [
-          32111, 32112, 32113, 32200, 32300, 32500, 32611, 32612, 32800, 32900,
-          33100, 34300, 38900
-        ],
-        true,
-        false
+        "in",
+        "kohdeluokka",
+        32111,
+        32112,
+        32113,
+        32200,
+        32300,
+        32500,
+        32611,
+        32612,
+        32800,
+        32900,
+        33100,
+        34300,
+        38900
       ],
       "paint": {
         "fill-color": [
@@ -362,8 +369,8 @@
       "type": "fill",
       "source": "taustakartta",
       "source-layer": "maankaytto",
-      "filter": ["match", ["get", "kohdeluokka"], [40200], true, false],
       "maxzoom": 14,
+      "filter": ["in", "kohdeluokka", 40200],
       "paint": {
         "fill-color": [
           "match",
@@ -1038,7 +1045,6 @@
       "paint": {
         "fill-antialias": true,
         "fill-color": "rgba(70, 70, 70, 1)",
-
         "fill-opacity": {
           "base": 1,
           "stops": [

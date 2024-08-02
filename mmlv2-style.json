@@ -744,40 +744,6 @@
         ]
       }
     },
-
-    {
-      "id": "shipping-lane",
-      "type": "line",
-      "metadata": {
-        "trailmap:mtb": true,
-        "trailmap:mtb_high_contrast": true,
-        "trailmap:mtb_winter": true,
-        "trailmap:gravel": true,
-        "trailmap:mapper": false,
-        "trailmap:ways_only": false,
-        "trailmap:group": "depth-contour"
-      },
-      "source": "taustakartta",
-      "source-layer": "liikenne",
-      "minzoom": 10,
-      "maxzoom": 20,
-      "filter": ["in", "kohdeluokka", 16511, 16512, 16521, 16522],
-      "layout": {
-        "visibility": "visible"
-      },
-      "paint": {
-        "line-color": "#000",
-        "line-width": [
-          "interpolate",
-          ["exponential", 1.55],
-          ["zoom"],
-          6,
-          0.5,
-          20,
-          8
-        ]
-      }
-    },
     {
       "id": "water-contours-line-label",
       "type": "symbol",
@@ -5017,16 +4983,15 @@
       ],
       "layout": {},
       "paint": {
-        "line-color": "#ccc",
-        "line-dasharray": [6, 8],
+        "line-color": "#000",
         "line-width": [
           "interpolate",
           ["exponential", 1.55],
           ["zoom"],
           6,
-          1,
+          0.5,
           20,
-          20
+          8
         ]
       }
     },

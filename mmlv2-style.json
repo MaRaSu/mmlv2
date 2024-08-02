@@ -11,7 +11,7 @@
     },
     "openmaptiles": {
       "type": "vector",
-      "url": "https://tiles.trailmap.fi/data/finland-omt.json"
+      "url": "https://tiles.trailmap.fi/data/finland-omt2.json"
     },
     "rinnevarjostus": {
       "type": "raster",
@@ -57,7 +57,7 @@
       "url": "https://avoin-karttakuva.maanmittauslaitos.fi/kiinteisto-avoin/v3/kiinteistojaotus/WGS84_Pseudo-Mercator/tilejson.json?api-key=e77a367c-c6f4-417e-870c-b55d156de596"
     }
   },
-  "sprite": "https://marasu.github.io/mtb-trailmap/sprite",
+  "sprite": "https://marasu.github.io/mtb-trailmap/spritev2",
   "glyphs": "https://avoin-karttakuva.maanmittauslaitos.fi/vectortiles/glyphs/{fontstack}/{range}.pbf?api-key=e77a367c-c6f4-417e-870c-b55d156de596",
   "layers": [
     {
@@ -744,6 +744,40 @@
         ]
       }
     },
+
+    {
+      "id": "shipping-lane",
+      "type": "line",
+      "metadata": {
+        "trailmap:mtb": true,
+        "trailmap:mtb_high_contrast": true,
+        "trailmap:mtb_winter": true,
+        "trailmap:gravel": true,
+        "trailmap:mapper": false,
+        "trailmap:ways_only": false,
+        "trailmap:group": "depth-contour"
+      },
+      "source": "taustakartta",
+      "source-layer": "liikenne",
+      "minzoom": 10,
+      "maxzoom": 20,
+      "filter": ["in", "kohdeluokka", 16511, 16512, 16521, 16522],
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "#000",
+        "line-width": [
+          "interpolate",
+          ["exponential", 1.55],
+          ["zoom"],
+          6,
+          0.5,
+          20,
+          8
+        ]
+      }
+    },
     {
       "id": "water-contours-line-label",
       "type": "symbol",
@@ -1047,6 +1081,49 @@
         "icon-size": ["interpolate", ["linear"], ["zoom"], 13, 0.3, 17, 1.5]
       },
       "paint": {}
+    },
+    {
+      "id": "water_symbols-mml",
+      "type": "symbol",
+      "metadata": {
+        "trailmap:mtb": true,
+        "trailmap:mtb_high_contrast": true,
+        "trailmap:mtb_winter": true,
+        "trailmap:gravel": true,
+        "trailmap:mapper": true,
+        "trailmap:ways_only": false
+      },
+      "source": "taustakartta",
+      "source-layer": "maasto_piste",
+      "minzoom": 13,
+      "filter": ["in", "kohdeluokka", 38512, 38513],
+      "layout": {
+        "visibility": "visible",
+        "icon-allow-overlap": true,
+        "icon-image": [
+          "match",
+          ["get", "kohdeluokka"],
+          [38512],
+          "mml-vesikivi_pinnassa",
+          [38513],
+          "mml-vesikivi_vedenpaallinen",
+          "#blank"
+        ],
+        "icon-size": {
+          "stops": [
+            [14, 0.3],
+            [18, 1.5]
+          ]
+        }
+      },
+      "paint": {
+        "icon-opacity": {
+          "stops": [
+            [14, 0],
+            [14.5, 1]
+          ]
+        }
+      }
     },
     {
       "id": "protected_area-fill-mml",
@@ -4855,7 +4932,7 @@
         "trailmap:mtb": false,
         "trailmap:mtb_winter": false,
         "trailmap:gravel": false,
-        "trailmap:ways_only": false,
+        "trailmap:ways_only": true,
         "trailmap:group": "cadastral"
       },
       "source": "kiinteisto-avoin",
@@ -4878,7 +4955,7 @@
         "trailmap:mtb": false,
         "trailmap:mtb_winter": false,
         "trailmap:gravel": false,
-        "trailmap:ways_only": false,
+        "trailmap:ways_only": true,
         "trailmap:group": "cadastral"
       },
       "source": "kiinteisto-avoin",
@@ -5911,7 +5988,7 @@
       "source": "lipas-pisteet",
       "source-layer": "lipas_pisteet",
       "minzoom": 8,
-      "filter": ["in", "tyyppikood", 204, 301, 302, 304],
+      "filter": ["in", "tyyppikood", 204, 301, 302, 304, 3220],
       "layout": {
         "visibility": "none"
       },
@@ -5944,7 +6021,7 @@
       "source": "lipas-pisteet",
       "source-layer": "lipas_pisteet",
       "minzoom": 8,
-      "filter": ["in", "tyyppikood", 204, 301, 302, 304],
+      "filter": ["in", "tyyppikood", 204, 301, 302, 304, 3220],
       "layout": {
         "visibility": "none",
         "icon-allow-overlap": true,
@@ -5992,7 +6069,7 @@
       "minzoom": 11,
       "filter": [
         "all",
-        ["in", "tyyppikood", 204, 301, 302, 304, 3230, 3220],
+        ["in", "tyyppikood", 204, 301, 302, 304, 3220],
         ["has", "nimi_fi"]
       ],
       "layout": {
@@ -6039,8 +6116,10 @@
       "type": "circle",
       "metadata": {
         "trailmap:mtb": false,
+        "trailmap:mtb_high_contrast": false,
         "trailmap:mtb_winter": false,
         "trailmap:gravel": false,
+        "trailmap:mapper": false,
         "trailmap:ways_only": true,
         "trailmap:group": "poi-osm"
       },
@@ -6064,7 +6143,8 @@
           "memorial",
           "monument",
           "cave_entrance",
-          "bunker"
+          "bunker",
+          "swimming_area"
         ],
         ["!in", "access", "no", "private", "permit", "military"]
       ],
@@ -6092,8 +6172,10 @@
       "type": "symbol",
       "metadata": {
         "trailmap:mtb": false,
+        "trailmap:mtb_high_contrast": false,
         "trailmap:mtb_winter": false,
         "trailmap:gravel": false,
+        "trailmap:mapper": false,
         "trailmap:ways_only": true,
         "trailmap:group": "poi-osm"
       },
@@ -6117,7 +6199,8 @@
           "memorial",
           "monument",
           "cave_entrance",
-          "bunker"
+          "bunker",
+          "swimming_area"
         ],
         ["!in", "access", "no", "private", "permit", "military"]
       ],
@@ -6128,25 +6211,27 @@
           "match",
           ["get", "subclass"],
           ["viewpoint"],
-          "osm_viewpoint",
+          "poi-viewpoint",
           ["lean_to", "picnic_shelter", "weather_shelter"],
-          "osm_shelter",
+          "poi-lean_to",
           ["wilderness_hut"],
-          "osm_wilderness_hut",
+          "poi-wilderness_hut",
           ["water_point", "drinking_water"],
-          "osm_drinking_water",
+          "poi-drinking_water",
           ["toilets"],
-          "osm_toilets",
+          "poi-toilets",
           ["firepit"],
-          "osm_firepit",
+          "poi-firepit",
           ["memorial"],
-          "osm_memorial",
+          "poi-memorial",
           ["monument"],
-          "osm_monument",
+          "poi-monument",
           ["cave_entrance"],
-          "osm_cave_entrance",
+          "poi-cave_entrance",
           ["bunker"],
-          "osm_bunker",
+          "poi-bunker",
+          ["swimming_area"],
+          "poi-swimming",
           "blank"
         ],
         "icon-size": {
@@ -6170,8 +6255,10 @@
       "type": "symbol",
       "metadata": {
         "trailmap:mtb": false,
+        "trailmap:mtb_high_contrast": false,
         "trailmap:mtb_winter": false,
         "trailmap:gravel": false,
+        "trailmap:mapper": false,
         "trailmap:ways_only": true,
         "trailmap:group": "poi-osm"
       },
@@ -6196,7 +6283,8 @@
           "memorial",
           "monument",
           "cave_entrance",
-          "bunker"
+          "bunker",
+          "swimming_area"
         ],
         ["!in", "access", "no", "private", "permit", "military"]
       ],
@@ -6233,6 +6321,1417 @@
             [12.5, 1]
           ]
         },
+        "text-color": "#3b322a",
+        "text-halo-color": "#ffffff",
+        "text-halo-blur": 0.2,
+        "text-halo-width": 2
+      }
+    },
+    {
+      "id": "POI-LIPAS-retkeily-circles",
+      "type": "circle",
+      "metadata": {
+        "trailmap:mtb": false,
+        "trailmap:mtb_high_contrast": false,
+        "trailmap:mtb_winter": false,
+        "trailmap:gravel": false,
+        "trailmap:mapper": false,
+        "trailmap:ways_only": true,
+        "trailmap:group": "poi-lipas-retkeily"
+      },
+      "source": "lipas-pisteet",
+      "source-layer": "lipas_pisteet",
+      "minzoom": 8,
+      "filter": ["in", "tyyppikood", 104, 202, 204, 206, 301, 302, 304],
+      "layout": {
+        "visibility": "none"
+      },
+      "paint": {
+        "circle-radius": {
+          "stops": [
+            [14, 9],
+            [17, 22]
+          ]
+        },
+        "circle-opacity": {
+          "stops": [
+            [8, 0],
+            [8.5, 1]
+          ]
+        },
+        "circle-color": "#bd287c"
+      }
+    },
+    {
+      "id": "POI-LIPAS-retkeily-icons",
+      "type": "symbol",
+      "metadata": {
+        "trailmap:mtb": false,
+        "trailmap:mtb_high_contrast": false,
+        "trailmap:mtb_winter": false,
+        "trailmap:gravel": false,
+        "trailmap:mapper": false,
+        "trailmap:ways_only": true,
+        "trailmap:group": "poi-lipas-retkeily"
+      },
+      "source": "lipas-pisteet",
+      "source-layer": "lipas_pisteet",
+      "minzoom": 8,
+      "filter": ["in", "tyyppikood", 104, 202, 204, 206, 301, 302, 304],
+      "layout": {
+        "visibility": "none",
+        "icon-allow-overlap": true,
+        "icon-image": [
+          "match",
+          ["get", "tyyppikood"],
+          [104],
+          "poi-hiking_area",
+          [202],
+          "poi-camp_pitch",
+          [204],
+          "poi-observation",
+          [206],
+          "poi-firepit",
+          [301],
+          "poi-basic_hut",
+          [302],
+          "poi-wilderness_hut",
+          [304],
+          "poi-wilderness_hut",
+          [3220],
+          "poi-swimming",
+          [3230],
+          "poi-swimming",
+          "blank"
+        ],
+        "icon-size": {
+          "stops": [
+            [14, 0.35],
+            [17, 1]
+          ]
+        }
+      },
+      "paint": {
+        "icon-opacity": {
+          "stops": [
+            [8, 0],
+            [8.5, 1]
+          ]
+        }
+      }
+    },
+    {
+      "id": "POI-LIPAS-retkeily-labels",
+      "type": "symbol",
+      "metadata": {
+        "trailmap:mtb": false,
+        "trailmap:mtb_high_contrast": false,
+        "trailmap:mtb_winter": false,
+        "trailmap:gravel": false,
+        "trailmap:mapper": false,
+        "trailmap:ways_only": true,
+        "trailmap:group": "poi-lipas-retkeily"
+      },
+      "source": "lipas-pisteet",
+      "source-layer": "lipas_pisteet",
+      "minzoom": 11,
+      "filter": [
+        "all",
+        ["in", "tyyppikood", 104, 202, 204, 206, 301, 302, 304],
+        ["has", "nimi_fi"]
+      ],
+      "layout": {
+        "visibility": "none",
+        "icon-allow-overlap": true,
+        "symbol-placement": "point",
+        "text-anchor": "top",
+        "text-field": "{nimi_fi}",
+        "text-font": ["Liberation Sans NLSFI"],
+        "text-size": {
+          "base": 1,
+          "stops": [
+            [12, 9],
+            [16, 13],
+            [18, 22]
+          ]
+        }
+      },
+      "paint": {
+        "text-translate": {
+          "base": 1,
+          "stops": [
+            [12, [0, 10]],
+            [14, [0, 13]],
+            [16, [0, 22]],
+            [18, [0, 28]]
+          ]
+        },
+        "text-opacity": {
+          "base": 1,
+          "stops": [
+            [12, 0],
+            [12.5, 1]
+          ]
+        },
+        "text-color": "#3b322a",
+        "text-halo-color": "#ffffff",
+        "text-halo-blur": 0.2,
+        "text-halo-width": 2
+      }
+    },
+    {
+      "id": "POI-LIPAS-harrastus-circles",
+      "type": "circle",
+      "metadata": {
+        "trailmap:mtb": false,
+        "trailmap:mtb_high_contrast": false,
+        "trailmap:mtb_winter": false,
+        "trailmap:gravel": false,
+        "trailmap:mapper": false,
+        "trailmap:ways_only": true,
+        "trailmap:group": "poi-lipas-harrastus"
+      },
+      "source": "lipas-pisteet",
+      "source-layer": "lipas_pisteet",
+      "minzoom": 8,
+      "filter": ["in", "tyyppikood", 1160, 1170, 3210, 3220, 3230, 3240],
+      "layout": {
+        "visibility": "none"
+      },
+      "paint": {
+        "circle-radius": {
+          "stops": [
+            [14, 9],
+            [17, 22]
+          ]
+        },
+        "circle-opacity": {
+          "stops": [
+            [8, 0],
+            [8.5, 1]
+          ]
+        },
+        "circle-color": "#bd287c"
+      }
+    },
+    {
+      "id": "POI-LIPAS-harrastus-icons",
+      "type": "symbol",
+      "metadata": {
+        "trailmap:mtb": false,
+        "trailmap:mtb_high_contrast": false,
+        "trailmap:mtb_winter": false,
+        "trailmap:gravel": false,
+        "trailmap:mapper": false,
+        "trailmap:ways_only": true,
+        "trailmap:group": "poi-lipas-harrastus"
+      },
+      "source": "lipas-pisteet",
+      "source-layer": "lipas_pisteet",
+      "minzoom": 8,
+      "filter": ["in", "tyyppikood", 1160, 1170, 3210, 3220, 3230, 3240],
+      "layout": {
+        "visibility": "none",
+        "icon-allow-overlap": true,
+        "icon-image": [
+          "match",
+          ["get", "tyyppikood"],
+          [1160],
+          "poi-bicycle",
+          [1170],
+          "poi-bicycle",
+          [3210],
+          "poi-swimming",
+          [3220],
+          "poi-swimming",
+          [3230],
+          "poi-swimming",
+          [3240],
+          "poi-swimming",
+          "blank"
+        ],
+        "icon-size": {
+          "stops": [
+            [14, 0.35],
+            [17, 1]
+          ]
+        }
+      },
+      "paint": {
+        "icon-opacity": {
+          "stops": [
+            [8, 0],
+            [8.5, 1]
+          ]
+        }
+      }
+    },
+    {
+      "id": "POI-LIPAS-harrastus-labels",
+      "type": "symbol",
+      "metadata": {
+        "trailmap:mtb": false,
+        "trailmap:mtb_high_contrast": false,
+        "trailmap:mtb_winter": false,
+        "trailmap:gravel": false,
+        "trailmap:mapper": false,
+        "trailmap:ways_only": true,
+        "trailmap:group": "poi-lipas-harrastus"
+      },
+      "source": "lipas-pisteet",
+      "source-layer": "lipas_pisteet",
+      "minzoom": 11,
+      "filter": [
+        "all",
+        ["in", "tyyppikood", 1160, 1170, 3210, 3220, 3230, 3240],
+        ["has", "nimi_fi"]
+      ],
+      "layout": {
+        "visibility": "none",
+        "icon-allow-overlap": true,
+        "symbol-placement": "point",
+        "text-anchor": "top",
+        "text-field": "{nimi_fi}",
+        "text-font": ["Liberation Sans NLSFI"],
+        "text-size": {
+          "base": 1,
+          "stops": [
+            [12, 9],
+            [16, 13],
+            [18, 22]
+          ]
+        }
+      },
+      "paint": {
+        "text-translate": {
+          "base": 1,
+          "stops": [
+            [12, [0, 10]],
+            [14, [0, 13]],
+            [16, [0, 22]],
+            [18, [0, 28]]
+          ]
+        },
+        "text-opacity": {
+          "base": 1,
+          "stops": [
+            [12, 0],
+            [12.5, 1]
+          ]
+        },
+        "text-color": "#3b322a",
+        "text-halo-color": "#ffffff",
+        "text-halo-blur": 0.2,
+        "text-halo-width": 2
+      }
+    },
+    {
+      "id": "POI-OSM-nahtavyys-circles",
+      "type": "circle",
+      "metadata": {
+        "trailmap:mtb": false,
+        "trailmap:mtb_high_contrast": false,
+        "trailmap:mtb_winter": false,
+        "trailmap:gravel": false,
+        "trailmap:mapper": false,
+        "trailmap:ways_only": true,
+        "trailmap:group": "poi-osm-nahtavyys"
+      },
+      "source": "openmaptiles",
+      "source-layer": "poi_ext",
+      "minzoom": 8,
+      "filter": [
+        "in",
+        "subclass",
+        "memorial",
+        "monument",
+        "bunker",
+        "cave_entrance",
+        "observation",
+        "viewpoint",
+        "attraction",
+        "peak",
+        "artwork"
+      ],
+      "layout": {
+        "visibility": "none"
+      },
+      "paint": {
+        "circle-radius": {
+          "stops": [
+            [14, 9],
+            [17, 22]
+          ]
+        },
+        "circle-opacity": {
+          "stops": [
+            [8, 0],
+            [8.5, 1]
+          ]
+        },
+        "circle-color": "#7200ff"
+      }
+    },
+    {
+      "id": "POI-OSM-nahtavyys-icons",
+      "type": "symbol",
+      "metadata": {
+        "trailmap:mtb": false,
+        "trailmap:mtb_high_contrast": false,
+        "trailmap:mtb_winter": false,
+        "trailmap:gravel": false,
+        "trailmap:mapper": false,
+        "trailmap:ways_only": true,
+        "trailmap:group": "poi-osm-nahtavyys"
+      },
+      "source": "openmaptiles",
+      "source-layer": "poi_ext",
+      "minzoom": 8,
+      "filter": [
+        "in",
+        "subclass",
+        "memorial",
+        "monument",
+        "bunker",
+        "cave_entrance",
+        "observation",
+        "viewpoint",
+        "attraction",
+        "peak",
+        "artwork"
+      ],
+      "layout": {
+        "visibility": "none",
+        "icon-allow-overlap": true,
+        "icon-image": "poi-{subclass}",
+        "icon-size": {
+          "stops": [
+            [14, 0.35],
+            [17, 1]
+          ]
+        }
+      },
+      "paint": {
+        "icon-opacity": {
+          "stops": [
+            [8, 0],
+            [9, 1]
+          ]
+        }
+      }
+    },
+    {
+      "id": "POI-OSM-nahtavyys-labels",
+      "type": "symbol",
+      "metadata": {
+        "trailmap:mtb": false,
+        "trailmap:mtb_high_contrast": false,
+        "trailmap:mtb_winter": false,
+        "trailmap:gravel": false,
+        "trailmap:mapper": false,
+        "trailmap:ways_only": true,
+        "trailmap:group": "poi-osm-nahtavyys"
+      },
+      "source": "openmaptiles",
+      "source-layer": "poi_ext",
+      "minzoom": 11,
+      "filter": [
+        "all",
+        [
+          "in",
+          "subclass",
+          "memorial",
+          "monument",
+          "bunker",
+          "cave_entrance",
+          "observation",
+          "viewpoint",
+          "attraction",
+          "peak",
+          "artwork"
+        ],
+        ["has", "name"]
+      ],
+      "layout": {
+        "visibility": "none",
+        "icon-allow-overlap": true,
+        "symbol-placement": "point",
+        "text-anchor": "top",
+        "text-field": "{name}",
+        "text-font": ["Liberation Sans NLSFI"],
+        "text-size": {
+          "base": 1,
+          "stops": [
+            [12, 9],
+            [16, 13],
+            [18, 22]
+          ]
+        }
+      },
+      "paint": {
+        "text-translate": {
+          "base": 1,
+          "stops": [
+            [12, [0, 10]],
+            [14, [0, 13]],
+            [16, [0, 22]],
+            [18, [0, 28]]
+          ]
+        },
+        "text-opacity": {
+          "base": 1,
+          "stops": [
+            [12, 0],
+            [12.5, 1]
+          ]
+        },
+        "text-color": "#3b322a",
+        "text-halo-color": "#ffffff",
+        "text-halo-blur": 0.2,
+        "text-halo-width": 2
+      }
+    },
+    {
+      "id": "POI-OSM-majoitus-circles",
+      "type": "circle",
+      "metadata": {
+        "trailmap:mtb": false,
+        "trailmap:mtb_high_contrast": false,
+        "trailmap:mtb_winter": false,
+        "trailmap:gravel": false,
+        "trailmap:mapper": false,
+        "trailmap:ways_only": true,
+        "trailmap:group": "poi-osm-majoitus"
+      },
+      "source": "openmaptiles",
+      "source-layer": "poi_ext",
+      "minzoom": 8,
+      "filter": [
+        "all",
+        [
+          "in",
+          "subclass",
+          "hotel",
+          "hostel",
+          "motel",
+          "apartment",
+          "chalet",
+          "camp_pitch",
+          "camp_site"
+        ]
+      ],
+      "layout": {
+        "visibility": "none"
+      },
+      "paint": {
+        "circle-radius": {
+          "stops": [
+            [14, 9],
+            [17, 22]
+          ]
+        },
+        "circle-opacity": {
+          "stops": [
+            [8, 0],
+            [8.5, 1]
+          ]
+        },
+        "circle-color": "#7200ff"
+      }
+    },
+    {
+      "id": "POI-OSM-majoitus-icons",
+      "type": "symbol",
+      "metadata": {
+        "trailmap:mtb": false,
+        "trailmap:mtb_high_contrast": false,
+        "trailmap:mtb_winter": false,
+        "trailmap:gravel": false,
+        "trailmap:mapper": false,
+        "trailmap:ways_only": true,
+        "trailmap:group": "poi-osm-majoitus"
+      },
+      "source": "openmaptiles",
+      "source-layer": "poi_ext",
+      "minzoom": 8,
+      "filter": [
+        "all",
+        [
+          "in",
+          "subclass",
+          "hotel",
+          "hostel",
+          "motel",
+          "apartment",
+          "chalet",
+          "camp_pitch",
+          "camp_site"
+        ]
+      ],
+      "layout": {
+        "visibility": "none",
+        "icon-allow-overlap": true,
+        "icon-image": "poi-{subclass}",
+        "icon-size": {
+          "stops": [
+            [14, 0.35],
+            [17, 1]
+          ]
+        }
+      },
+      "paint": {
+        "icon-opacity": {
+          "stops": [
+            [8, 0],
+            [9, 1]
+          ]
+        }
+      }
+    },
+    {
+      "id": "POI-OSM-majoitus-labels",
+      "type": "symbol",
+      "metadata": {
+        "trailmap:mtb": false,
+        "trailmap:mtb_high_contrast": false,
+        "trailmap:mtb_winter": false,
+        "trailmap:gravel": false,
+        "trailmap:mapper": false,
+        "trailmap:ways_only": true,
+        "trailmap:group": "poi-osm-majoitus"
+      },
+      "source": "openmaptiles",
+      "source-layer": "poi_ext",
+      "minzoom": 11,
+      "filter": [
+        "all",
+        [
+          "in",
+          "subclass",
+          "hotel",
+          "hostel",
+          "motel",
+          "apartment",
+          "chalet",
+          "camp_pitch",
+          "camp_site"
+        ],
+        ["has", "name"]
+      ],
+      "layout": {
+        "visibility": "none",
+        "icon-allow-overlap": true,
+        "symbol-placement": "point",
+        "text-anchor": "top",
+        "text-field": "{name}",
+        "text-font": ["Liberation Sans NLSFI"],
+        "text-size": {
+          "base": 1,
+          "stops": [
+            [12, 9],
+            [16, 13],
+            [18, 22]
+          ]
+        }
+      },
+      "paint": {
+        "text-translate": {
+          "base": 1,
+          "stops": [
+            [12, [0, 10]],
+            [14, [0, 13]],
+            [16, [0, 22]],
+            [18, [0, 28]]
+          ]
+        },
+        "text-opacity": {
+          "base": 1,
+          "stops": [
+            [12, 0],
+            [12.5, 1]
+          ]
+        },
+        "text-color": "#3b322a",
+        "text-halo-color": "#ffffff",
+        "text-halo-blur": 0.2,
+        "text-halo-width": 2
+      }
+    },
+    {
+      "id": "POI-OSM-tauko-circles",
+      "type": "circle",
+      "metadata": {
+        "trailmap:mtb": false,
+        "trailmap:mtb_high_contrast": false,
+        "trailmap:mtb_winter": false,
+        "trailmap:gravel": false,
+        "trailmap:mapper": false,
+        "trailmap:ways_only": true,
+        "trailmap:group": "poi-osm-tauko"
+      },
+      "source": "openmaptiles",
+      "source-layer": "poi_ext",
+      "minzoom": 8,
+      "filter": [
+        "all",
+        [
+          "in",
+          "subclass",
+          "picnic_table",
+          "picnic_site",
+          "firepit",
+          "gazebo",
+          "lean_to",
+          "picnic_shelter",
+          "weather_shelter",
+          "basic_hut",
+          "wilderness_hut",
+          "swimming",
+          "toilets",
+          "water_point",
+          "drinking_water"
+        ]
+      ],
+      "layout": {
+        "visibility": "none"
+      },
+      "paint": {
+        "circle-radius": {
+          "stops": [
+            [14, 9],
+            [17, 22]
+          ]
+        },
+        "circle-opacity": {
+          "stops": [
+            [8, 0],
+            [8.5, 1]
+          ]
+        },
+        "circle-color": "#7200ff"
+      }
+    },
+    {
+      "id": "POI-OSM-tauko-icons",
+      "type": "symbol",
+      "metadata": {
+        "trailmap:mtb": false,
+        "trailmap:mtb_high_contrast": false,
+        "trailmap:mtb_winter": false,
+        "trailmap:gravel": false,
+        "trailmap:mapper": false,
+        "trailmap:ways_only": true,
+        "trailmap:group": "poi-osm-tauko"
+      },
+      "source": "openmaptiles",
+      "source-layer": "poi_ext",
+      "minzoom": 8,
+      "filter": [
+        "all",
+        [
+          "in",
+          "subclass",
+          "picnic_table",
+          "picnic_site",
+          "firepit",
+          "gazebo",
+          "lean_to",
+          "picnic_shelter",
+          "weather_shelter",
+          "basic_hut",
+          "wilderness_hut",
+          "swimming",
+          "toilets",
+          "water_point",
+          "drinking_water"
+        ]
+      ],
+      "layout": {
+        "visibility": "none",
+        "icon-allow-overlap": true,
+        "icon-image": "poi-{subclass}",
+        "icon-size": {
+          "stops": [
+            [14, 0.35],
+            [17, 1]
+          ]
+        }
+      },
+      "paint": {
+        "icon-opacity": {
+          "stops": [
+            [8, 0],
+            [9, 1]
+          ]
+        }
+      }
+    },
+    {
+      "id": "POI-OSM-tauko-labels",
+      "type": "symbol",
+      "metadata": {
+        "trailmap:mtb": false,
+        "trailmap:mtb_high_contrast": false,
+        "trailmap:mtb_winter": false,
+        "trailmap:gravel": false,
+        "trailmap:mapper": false,
+        "trailmap:ways_only": true,
+        "trailmap:group": "poi-osm-tauko"
+      },
+      "source": "openmaptiles",
+      "source-layer": "poi_ext",
+      "minzoom": 11,
+      "filter": [
+        "all",
+        [
+          "in",
+          "subclass",
+          "picnic_table",
+          "picnic_site",
+          "firepit",
+          "gazebo",
+          "lean_to",
+          "picnic_shelter",
+          "weather_shelter",
+          "basic_hut",
+          "wilderness_hut",
+          "swimming",
+          "toilets",
+          "water_point",
+          "drinking_water"
+        ],
+        ["has", "name"]
+      ],
+      "layout": {
+        "visibility": "none",
+        "icon-allow-overlap": true,
+        "symbol-placement": "point",
+        "text-anchor": "top",
+        "text-field": "{name}",
+        "text-font": ["Liberation Sans NLSFI"],
+        "text-size": {
+          "base": 1,
+          "stops": [
+            [12, 9],
+            [16, 13],
+            [18, 22]
+          ]
+        }
+      },
+      "paint": {
+        "text-translate": {
+          "base": 1,
+          "stops": [
+            [12, [0, 10]],
+            [14, [0, 13]],
+            [16, [0, 22]],
+            [18, [0, 28]]
+          ]
+        },
+        "text-opacity": {
+          "base": 1,
+          "stops": [
+            [12, 0],
+            [12.5, 1]
+          ]
+        },
+        "text-color": "#3b322a",
+        "text-halo-color": "#ffffff",
+        "text-halo-blur": 0.2,
+        "text-halo-width": 2
+      }
+    },
+    {
+      "id": "POI-OSM-huolto-circles",
+      "type": "circle",
+      "metadata": {
+        "trailmap:mtb": false,
+        "trailmap:mtb_high_contrast": false,
+        "trailmap:mtb_winter": false,
+        "trailmap:gravel": false,
+        "trailmap:mapper": false,
+        "trailmap:ways_only": true,
+        "trailmap:group": "poi-osm-huolto"
+      },
+      "source": "openmaptiles",
+      "source-layer": "poi_ext",
+      "minzoom": 8,
+      "filter": [
+        "all",
+        [
+          "in",
+          "subclass",
+          "toilets",
+          "water_point",
+          "drinking_water",
+          "bakery",
+          "coffee",
+          "convenience",
+          "department_store",
+          "food",
+          "general",
+          "ice_cream",
+          "mall",
+          "pastry",
+          "supermarket",
+          "bar",
+          "pub",
+          "cafe",
+          "fast_food",
+          "restaurant",
+          "bicycle_repair_station"
+        ]
+      ],
+      "layout": {
+        "visibility": "none"
+      },
+      "paint": {
+        "circle-radius": {
+          "stops": [
+            [14, 9],
+            [17, 22]
+          ]
+        },
+        "circle-opacity": {
+          "stops": [
+            [8, 0],
+            [8.5, 1]
+          ]
+        },
+        "circle-color": "#7200ff"
+      }
+    },
+    {
+      "id": "POI-OSM-huolto-icons",
+      "type": "symbol",
+      "metadata": {
+        "trailmap:mtb": false,
+        "trailmap:mtb_high_contrast": false,
+        "trailmap:mtb_winter": false,
+        "trailmap:gravel": false,
+        "trailmap:mapper": false,
+        "trailmap:ways_only": true,
+        "trailmap:group": "poi-osm-huolto"
+      },
+      "source": "openmaptiles",
+      "source-layer": "poi_ext",
+      "minzoom": 8,
+      "filter": [
+        "all",
+        [
+          "in",
+          "subclass",
+          "toilets",
+          "water_point",
+          "drinking_water",
+          "bakery",
+          "coffee",
+          "convenience",
+          "department_store",
+          "food",
+          "general",
+          "ice_cream",
+          "mall",
+          "pastry",
+          "supermarket",
+          "bar",
+          "pub",
+          "cafe",
+          "fast_food",
+          "restaurant",
+          "bicycle_repair_station"
+        ]
+      ],
+      "layout": {
+        "visibility": "none",
+        "icon-allow-overlap": true,
+        "icon-image": "poi-{subclass}",
+        "icon-size": {
+          "stops": [
+            [14, 0.35],
+            [17, 1]
+          ]
+        }
+      },
+      "paint": {
+        "icon-opacity": {
+          "stops": [
+            [8, 0],
+            [9, 1]
+          ]
+        }
+      }
+    },
+    {
+      "id": "POI-OSM-huolto-labels",
+      "type": "symbol",
+      "metadata": {
+        "trailmap:mtb": false,
+        "trailmap:mtb_high_contrast": false,
+        "trailmap:mtb_winter": false,
+        "trailmap:gravel": false,
+        "trailmap:mapper": false,
+        "trailmap:ways_only": true,
+        "trailmap:group": "poi-osm-huolto"
+      },
+      "source": "openmaptiles",
+      "source-layer": "poi_ext",
+      "minzoom": 11,
+      "filter": [
+        "all",
+        [
+          "in",
+          "subclass",
+          "toilets",
+          "water_point",
+          "drinking_water",
+          "bakery",
+          "coffee",
+          "convenience",
+          "department_store",
+          "food",
+          "general",
+          "ice_cream",
+          "mall",
+          "pastry",
+          "supermarket",
+          "bar",
+          "pub",
+          "cafe",
+          "fast_food",
+          "restaurant",
+          "bicycle_repair_station"
+        ],
+        ["has", "name"]
+      ],
+      "layout": {
+        "visibility": "none",
+        "icon-allow-overlap": true,
+        "symbol-placement": "point",
+        "text-anchor": "top",
+        "text-field": "{name}",
+        "text-font": ["Liberation Sans NLSFI"],
+        "text-size": {
+          "base": 1,
+          "stops": [
+            [12, 9],
+            [16, 13],
+            [18, 22]
+          ]
+        }
+      },
+      "paint": {
+        "text-translate": {
+          "base": 1,
+          "stops": [
+            [12, [0, 10]],
+            [14, [0, 13]],
+            [16, [0, 22]],
+            [18, [0, 28]]
+          ]
+        },
+        "text-opacity": {
+          "base": 1,
+          "stops": [
+            [12, 0],
+            [12.5, 1]
+          ]
+        },
+        "text-color": "#3b322a",
+        "text-halo-color": "#ffffff",
+        "text-halo-blur": 0.2,
+        "text-halo-width": 2
+      }
+    },
+    {
+      "id": "POI-OSM-liikenne-circles",
+      "type": "circle",
+      "metadata": {
+        "trailmap:mtb": false,
+        "trailmap:mtb_high_contrast": false,
+        "trailmap:mtb_winter": false,
+        "trailmap:gravel": false,
+        "trailmap:mapper": false,
+        "trailmap:ways_only": true,
+        "trailmap:group": "poi-osm-liikenne"
+      },
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "minzoom": 8,
+      "filter": [
+        "any",
+        [
+          "in",
+          "subclass",
+          "bicycle_parking",
+          "bus_station",
+          "bus_stop",
+          "charging_station",
+          "subway_entrance"
+        ],
+        ["in", "class", "fuel"],
+        ["all", ["==", "class", "railway"], ["==", "subclass", "station"]]
+      ],
+      "layout": {
+        "visibility": "none"
+      },
+      "paint": {
+        "circle-radius": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          14,
+          ["match", ["get", "subclass"], ["bus_stop", "bicycle_parking"], 6, 9],
+          17,
+          [
+            "match",
+            ["get", "subclass"],
+            ["bus_stop", "bicycle_parking"],
+            14,
+            22
+          ]
+        ],
+        "circle-opacity": {
+          "stops": [
+            [8, 0],
+            [8.5, 1]
+          ]
+        },
+        "circle-color": "#7200ff"
+      }
+    },
+    {
+      "id": "POI-OSM-liikenne-icons",
+      "type": "symbol",
+      "metadata": {
+        "trailmap:mtb": false,
+        "trailmap:mtb_high_contrast": false,
+        "trailmap:mtb_winter": false,
+        "trailmap:gravel": false,
+        "trailmap:mapper": false,
+        "trailmap:ways_only": true,
+        "trailmap:group": "poi-osm-liikenne"
+      },
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "minzoom": 8,
+      "filter": [
+        "any",
+        [
+          "in",
+          "subclass",
+          "bicycle_parking",
+          "bus_station",
+          "bus_stop",
+          "charging_station",
+          "subway_entrance"
+        ],
+        ["in", "class", "fuel"],
+        ["all", ["==", "class", "railway"], ["==", "subclass", "station"]]
+      ],
+      "layout": {
+        "visibility": "none",
+        "icon-allow-overlap": true,
+        "icon-image": [
+          "match",
+          ["get", "subclass"],
+          ["bicycle_parking"],
+          "poi-bicycle_parking",
+          ["bus_station"],
+          "poi-bus_station",
+          ["bus_stop"],
+          "poi-bus_stop",
+          ["charging_station"],
+          "poi-charging_station",
+          ["subway_entrance"],
+          "poi-subway_entrance",
+          ["station"],
+          "poi-railway_station",
+          "poi-fuel"
+        ],
+        "icon-size": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          14,
+          ["match", ["get", "subclass"], ["bicycle_parking"], 0.21, 0.35],
+          17,
+          ["match", ["get", "subclass"], ["bicycle_parking"], 0.66, 1]
+        ]
+      },
+      "paint": {
+        "icon-opacity": {
+          "stops": [
+            [8, 0],
+            [9, 1]
+          ]
+        }
+      }
+    },
+    {
+      "id": "POI-OSM-liikenne-labels",
+      "type": "symbol",
+      "metadata": {
+        "trailmap:mtb": false,
+        "trailmap:mtb_high_contrast": false,
+        "trailmap:mtb_winter": false,
+        "trailmap:gravel": false,
+        "trailmap:mapper": false,
+        "trailmap:ways_only": true,
+        "trailmap:group": "poi-osm-liikenne"
+      },
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "minzoom": 11,
+      "filter": [
+        "all",
+        [
+          "any",
+          [
+            "in",
+            "subclass",
+            "bicycle_parking",
+            "bus_station",
+            "bus_stop",
+            "charging_station",
+            "subway_entrance"
+          ],
+          ["in", "class", "fuel"],
+          ["all", ["==", "class", "railway"], ["==", "subclass", "station"]]
+        ],
+        ["has", "name"]
+      ],
+      "layout": {
+        "visibility": "none",
+        "icon-allow-overlap": true,
+        "symbol-placement": "point",
+        "text-anchor": "top",
+        "text-field": "{name}",
+        "text-font": ["Liberation Sans NLSFI"],
+        "text-size": {
+          "base": 1,
+          "stops": [
+            [12, 9],
+            [16, 13],
+            [18, 22]
+          ]
+        }
+      },
+      "paint": {
+        "text-translate": {
+          "base": 1,
+          "stops": [
+            [12, [0, 10]],
+            [14, [0, 13]],
+            [16, [0, 22]],
+            [18, [0, 28]]
+          ]
+        },
+        "text-opacity": {
+          "base": 1,
+          "stops": [
+            [12, 0],
+            [12.5, 1]
+          ]
+        },
+        "text-color": "#3b322a",
+        "text-halo-color": "#ffffff",
+        "text-halo-blur": 0.2,
+        "text-halo-width": 2
+      }
+    },
+    {
+      "id": "POI-OSM-autopysakointi-circles",
+      "type": "symbol",
+      "metadata": {
+        "trailmap:mtb": false,
+        "trailmap:mtb_high_contrast": false,
+        "trailmap:mtb_winter": false,
+        "trailmap:gravel": false,
+        "trailmap:mapper": false,
+        "trailmap:ways_only": true,
+        "trailmap:group": "poi-osm-liikenne"
+      },
+      "source": "openmaptiles",
+      "source-layer": "landuse_ext",
+      "minzoom": 8,
+      "filter": ["==", "class", "parking"],
+      "layout": {
+        "visibility": "none",
+        "icon-allow-overlap": true,
+        "icon-image": [
+          "match",
+          ["get", "class"],
+          ["parking"],
+          "poi-parking_circle",
+          "blank"
+        ],
+        "icon-size": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          14,
+          [
+            "match",
+            ["get", "access"],
+            ["yes", "permissive"],
+            0.35,
+            ["no", "permit", "private", "customers"],
+            0,
+            0.21
+          ],
+          17,
+          [
+            "match",
+            ["get", "access"],
+            ["yes", "permissive"],
+            1,
+            ["no", "permit", "private", "customers"],
+            0,
+            0.6
+          ]
+        ]
+      },
+      "paint": {
+        "icon-opacity": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          8,
+          0,
+          9,
+          [
+            "match",
+            ["get", "access"],
+            ["yes", "permissive"],
+            1,
+            ["no", "permit", "private", "customers"],
+            0,
+            0.33
+          ]
+        ]
+      }
+    },
+    {
+      "id": "POI-OSM-autopysakointi-icons",
+      "type": "symbol",
+      "metadata": {
+        "trailmap:mtb": false,
+        "trailmap:mtb_high_contrast": false,
+        "trailmap:mtb_winter": false,
+        "trailmap:gravel": false,
+        "trailmap:mapper": false,
+        "trailmap:ways_only": true,
+        "trailmap:group": "poi-osm-liikenne"
+      },
+      "source": "openmaptiles",
+      "source-layer": "landuse_ext",
+      "minzoom": 8,
+      "filter": ["==", "class", "parking"],
+      "layout": {
+        "visibility": "none",
+        "icon-allow-overlap": true,
+        "icon-image": [
+          "match",
+          ["get", "class"],
+          ["parking"],
+          "poi-parking",
+          "blank"
+        ],
+        "icon-size": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          14,
+          [
+            "match",
+            ["get", "access"],
+            ["yes", "permissive"],
+            0.35,
+            ["no", "permit", "private", "customers"],
+            0,
+            0.21
+          ],
+          17,
+          [
+            "match",
+            ["get", "access"],
+            ["yes", "permissive"],
+            1,
+            ["no", "permit", "private", "customers"],
+            0,
+            0.6
+          ]
+        ]
+      },
+      "paint": {
+        "icon-opacity": {
+          "stops": [
+            [8, 0],
+            [9, 1]
+          ]
+        }
+      }
+    },
+    {
+      "id": "POI-OSM-autopysakointi-labels",
+      "type": "symbol",
+      "metadata": {
+        "trailmap:mtb": false,
+        "trailmap:mtb_high_contrast": false,
+        "trailmap:mtb_winter": false,
+        "trailmap:gravel": false,
+        "trailmap:mapper": false,
+        "trailmap:ways_only": true,
+        "trailmap:group": "poi-osm-liikenne"
+      },
+      "source": "openmaptiles",
+      "source-layer": "landuse_ext",
+      "minzoom": 11,
+      "filter": ["all", ["==", "class", "parking"], ["has", "name"]],
+      "layout": {
+        "visibility": "none",
+        "icon-allow-overlap": true,
+        "symbol-placement": "point",
+        "text-anchor": "top",
+        "text-field": "{name}",
+        "text-font": ["Liberation Sans NLSFI"],
+        "text-size": {
+          "base": 1,
+          "stops": [
+            [12, 9],
+            [16, 13],
+            [18, 22]
+          ]
+        }
+      },
+      "paint": {
+        "text-translate": {
+          "base": 1,
+          "stops": [
+            [12, [0, 10]],
+            [14, [0, 13]],
+            [16, [0, 22]],
+            [18, [0, 28]]
+          ]
+        },
+        "text-opacity": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          12,
+          0,
+          12.5,
+          [
+            "match",
+            ["get", "access"],
+            ["yes", "permissive"],
+            1,
+            ["no", "permit", "private", "customers"],
+            0,
+            0.33
+          ]
+        ],
         "text-color": "#3b322a",
         "text-halo-color": "#ffffff",
         "text-halo-blur": 0.2,

@@ -571,11 +571,11 @@
       },
       "source": "openmaptiles",
       "source-layer": "water",
-      "maxzoom": 12,
+      "maxzoom": 13,
       "filter": [
         "all",
         ["==", "$type", "Polygon"],
-        ["in", "class", "river", "lake"],
+        ["in", "class", "river", "lake", "pond"],
         ["!=", "intermittent", 1],
         ["!=", "brunnel", "tunnel"]
       ],

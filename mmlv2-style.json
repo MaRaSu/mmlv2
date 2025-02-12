@@ -4951,6 +4951,7 @@
       "minzoom": 17,
       "layout": {
         "text-field": "{kiinteistotunnuksenEsitysmuoto}",
+        "text-font": ["Liberation Sans NLSFI"],
         "symbol-placement": "point",
         "text-allow-overlap": true,
         "text-size": 12,
@@ -5819,7 +5820,7 @@
         "symbol-placement": "point",
         "text-anchor": "top",
         "text-field": "{nimi_fi}",
-        "text-font": ["Noto Sans Regular"],
+        "text-font": ["Liberation Sans NLSFI"],
         "text-size": {
           "base": 1,
           "stops": [
@@ -5977,7 +5978,7 @@
         "symbol-placement": "point",
         "text-anchor": "top",
         "text-field": "{nimi_fi}",
-        "text-font": ["Noto Sans Regular"],
+        "text-font": ["Liberation Sans NLSFI"],
         "text-size": {
           "base": 1,
           "stops": [
@@ -6129,7 +6130,7 @@
         "symbol-placement": "point",
         "text-anchor": "top",
         "text-field": "{nimi_fi}",
-        "text-font": ["Noto Sans Regular"],
+        "text-font": ["Liberation Sans NLSFI"],
         "text-size": {
           "base": 1,
           "stops": [
@@ -6301,7 +6302,7 @@
         "symbol-placement": "point",
         "text-anchor": "top",
         "text-field": "{name}",
-        "text-font": ["Noto Sans Regular"],
+        "text-font": ["Liberation Sans NLSFI"],
         "text-size": {
           "base": 1,
           "stops": [
@@ -6473,7 +6474,7 @@
         "symbol-placement": "point",
         "text-anchor": "top",
         "text-field": "{name}",
-        "text-font": ["Noto Sans Regular"],
+        "text-font": ["Liberation Sans NLSFI"],
         "text-size": {
           "base": 1,
           "stops": [
@@ -6663,7 +6664,7 @@
         "symbol-placement": "point",
         "text-anchor": "top",
         "text-field": "{name}",
-        "text-font": ["Noto Sans Regular"],
+        "text-font": ["Liberation Sans NLSFI"],
         "text-size": {
           "base": 1,
           "stops": [
@@ -6871,7 +6872,7 @@
         "symbol-placement": "point",
         "text-anchor": "top",
         "text-field": "{name}",
-        "text-font": ["Noto Sans Regular"],
+        "text-font": ["Liberation Sans NLSFI"],
         "text-size": {
           "base": 1,
           "stops": [
@@ -7074,7 +7075,7 @@
         "symbol-placement": "point",
         "text-anchor": "top",
         "text-field": "{name}",
-        "text-font": ["Noto Sans Regular"],
+        "text-font": ["Liberation Sans NLSFI"],
         "text-size": {
           "base": 1,
           "stops": [
@@ -7268,7 +7269,7 @@
         "symbol-placement": "point",
         "text-anchor": "top",
         "text-field": "{name}",
-        "text-font": ["Noto Sans Regular"],
+        "text-font": ["Liberation Sans NLSFI"],
         "text-size": {
           "base": 1,
           "stops": [

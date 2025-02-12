@@ -5,7 +5,7 @@
   "center": [23.65, 61.5],
   "zoom": 11.35,
   "sources": {
-    "maastovektorikartta": {
+    "mml_topo": {
       "type": "vector",
       "url": "https://avoin-karttakuva.maanmittauslaitos.fi/vectortiles/tilejson/taustakartta/1.0.0/taustakartta/default/v21/WGS84_Pseudo-Mercator/tilejson.json?api-key=e77a367c-c6f4-417e-870c-b55d156de596"
     },
@@ -13,19 +13,19 @@
       "type": "vector",
       "url": "https://tiles.trailmap.fi/data/europe-omt.json"
     },
-    "rinnevarjostus": {
+    "mml_hillshade": {
       "type": "raster",
       "maxzoom": 13,
       "tiles": ["https://static.trailmap.fi/varjomap/{z}/{x}/{y}.png"]
     },
-    "ilmakuva": {
+    "mml_ortho": {
       "type": "raster",
       "maxzoom": 17,
       "tiles": [
         "https://avoin-karttakuva.maanmittauslaitos.fi/avoin/wmts/1.0.0/ortokuva/default/WGS84_Pseudo-Mercator/{z}/{y}/{x}.png?api-key=e77a367c-c6f4-417e-870c-b55d156de596"
       ]
     },
-    "ilmakuva2": {
+    "mml_ortho_kapsi": {
       "type": "raster",
       "maxzoom": 19,
       "tiles": [
@@ -70,7 +70,7 @@
     {
       "id": "maasto_alue",
       "type": "fill",
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "maasto_alue",
       "filter": [
         "match",
@@ -124,7 +124,7 @@
         "trailmap:mapper": true,
         "trailmap:ways_only": false
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "maasto_alue",
       "minzoom": 11,
       "filter": ["==", "kohdeluokka", 39110],
@@ -145,7 +145,7 @@
     {
       "id": "alueraja",
       "type": "line",
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "alueraja",
       "filter": ["match", ["get", "kohdeluokka"], [72200], true, false],
       "layout": {
@@ -177,7 +177,7 @@
     {
       "id": "maankaytto",
       "type": "fill",
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "maankaytto",
       "filter": [
         "in",
@@ -249,7 +249,7 @@
     {
       "id": "maankaytto-asutus",
       "type": "fill",
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "maankaytto",
       "maxzoom": 14,
       "filter": ["in", "kohdeluokka", 40200],
@@ -311,7 +311,7 @@
       }
     },
     {
-      "id": "rinnevarjostus",
+      "id": "mml_hillshade",
       "type": "raster",
       "metadata": {
         "trailmap:mtb": true,
@@ -320,7 +320,7 @@
         "trailmap:ways_only": false,
         "trailmap:group": "hillshade"
       },
-      "source": "rinnevarjostus",
+      "source": "mml_hillshade",
       "minzoom": 11,
       "layout": {
         "visibility": "visible"
@@ -339,7 +339,7 @@
         "trailmap:ways_only": false,
         "trailmap:group": "contour"
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "korkeus",
       "minzoom": 13,
       "maxzoom": 20,
@@ -371,7 +371,7 @@
         "trailmap:ways_only": false,
         "trailmap:group": "contour"
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "korkeus",
       "minzoom": 8,
       "maxzoom": 13,
@@ -411,7 +411,7 @@
         "trailmap:ways_only": false,
         "trailmap:group": "contour"
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "korkeus",
       "minzoom": 11,
       "maxzoom": 20,
@@ -442,7 +442,7 @@
     {
       "id": "lentokentta_alue",
       "type": "fill",
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -482,7 +482,7 @@
     {
       "id": "lentokentta_viiva",
       "type": "line",
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "any",
@@ -497,7 +497,7 @@
     {
       "id": "lentokentta_viiva2",
       "type": "line",
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "any",
@@ -512,7 +512,7 @@
     {
       "id": "parkkipaikka_alue",
       "type": "fill",
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": ["==", "kohdeluokka", 32421],
       "paint": {
@@ -523,7 +523,7 @@
     {
       "id": "vesisto_alue_reuna",
       "type": "line",
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "vesisto_alue",
       "layout": {
         "visibility": "visible"
@@ -593,7 +593,7 @@
         "trailmap:gravel": true,
         "trailmap:ways_only": false
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "vesisto_alue",
       "filter": [
         "all",
@@ -643,7 +643,7 @@
         "trailmap:ways_only": false,
         "trailmap:group": "depth-contour"
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "korkeus",
       "minzoom": 13,
       "maxzoom": 20,
@@ -677,7 +677,7 @@
         "trailmap:ways_only": false,
         "trailmap:group": "depth-contour"
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "korkeus",
       "minzoom": 13,
       "maxzoom": 20,
@@ -711,7 +711,7 @@
         "trailmap:ways_only": false,
         "trailmap:group": "depth-contour"
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "korkeus",
       "minzoom": 13,
       "maxzoom": 20,
@@ -745,7 +745,7 @@
         "trailmap:ways_only": false,
         "trailmap:group": "depth-contour"
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "korkeus",
       "minzoom": 13,
       "maxzoom": 20,
@@ -778,7 +778,7 @@
         "trailmap:ways_only": false,
         "trailmap:group": "depth-contour"
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "korkeus",
       "minzoom": 13,
       "maxzoom": 20,
@@ -815,7 +815,7 @@
         "trailmap:ways_only": false,
         "trailmap:group": "depth-contour"
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "korkeus",
       "minzoom": 12,
       "maxzoom": 20,
@@ -847,7 +847,7 @@
     {
       "id": "maasto_alue_vesi",
       "type": "fill",
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "maasto_alue",
       "filter": [
         "match",
@@ -892,7 +892,7 @@
     {
       "id": "vesisto_viiva",
       "type": "line",
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "vesisto_viiva",
       "layout": {
         "visibility": "visible"
@@ -913,7 +913,7 @@
     {
       "id": "maastoaluereuna",
       "type": "line",
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "maastoaluereuna",
       "filter": [
         "all",
@@ -943,7 +943,7 @@
     {
       "id": "maastoaluereuna-heikko",
       "type": "line",
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "maastoaluereuna",
       "filter": [
         "all",
@@ -983,7 +983,7 @@
         "trailmap:mapper": true,
         "trailmap:ways_only": false
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "maasto_viiva",
       "minzoom": 11,
       "filter": ["==", "kohdeluokka", 34400],
@@ -1018,7 +1018,7 @@
         "trailmap:mapper": true,
         "trailmap:ways_only": false
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "maasto_viiva",
       "minzoom": 11,
       "filter": ["==", "kohdeluokka", 34400],
@@ -1057,7 +1057,7 @@
         "trailmap:gravel": false,
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "maasto_piste",
       "minzoom": 13,
       "filter": ["==", "kohdeluokka", 34200],
@@ -1081,7 +1081,7 @@
         "trailmap:mapper": true,
         "trailmap:ways_only": false
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "maasto_piste",
       "minzoom": 13,
       "filter": ["in", "kohdeluokka", 38512, 38513],
@@ -1124,7 +1124,7 @@
         "trailmap:mapper": true,
         "trailmap:ways_only": false
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "alueraja",
       "minzoom": 5,
       "filter": ["in", "kohdeluokka", 72202, 72201, 72200],
@@ -1162,7 +1162,7 @@
         "trailmap:mapper": true,
         "trailmap:ways_only": false
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "alueraja",
       "minzoom": 10,
       "filter": ["in", "kohdeluokka", 72202, 72201, 72200],
@@ -1197,7 +1197,7 @@
         "trailmap:mapper": true,
         "trailmap:ways_only": false
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "alueraja",
       "minzoom": 10,
       "filter": ["in", "kohdeluokka", 72202, 72201, 72200],
@@ -1313,7 +1313,7 @@
         "trailmap:mapper": true,
         "trailmap:ways_only": false
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "rakennus",
       "minzoom": 13,
       "filter": ["==", "$type", "Polygon"],
@@ -1344,7 +1344,7 @@
         "trailmap:mapper": true,
         "trailmap:ways_only": false
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "rakennus",
       "minzoom": 13,
       "filter": ["==", "$type", "Polygon"],
@@ -1393,7 +1393,7 @@
     {
       "id": "alt_base_ortho",
       "type": "raster",
-      "source": "ilmakuva",
+      "source": "mml_ortho",
       "maxzoom": 16,
       "layout": {
         "visibility": "none"
@@ -1402,7 +1402,7 @@
     {
       "id": "alt_base_ortho2",
       "type": "raster",
-      "source": "ilmakuva2",
+      "source": "mml_ortho_kapsi",
       "minzoom": 16,
       "layout": {
         "visibility": "none"
@@ -1422,7 +1422,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -1459,7 +1459,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -1487,7 +1487,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -1516,7 +1516,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -1547,7 +1547,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -1577,7 +1577,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -1606,7 +1606,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -1634,7 +1634,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -1662,7 +1662,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -1690,7 +1690,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -1724,7 +1724,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -1752,7 +1752,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -1780,7 +1780,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -1808,7 +1808,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -1843,7 +1843,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -1924,7 +1924,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -1952,7 +1952,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -2553,7 +2553,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -2584,7 +2584,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -2643,7 +2643,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -2672,7 +2672,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -2700,7 +2700,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -2728,7 +2728,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -2756,7 +2756,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -2790,7 +2790,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -2820,7 +2820,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -2848,7 +2848,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -2878,7 +2878,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -2912,7 +2912,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -2940,7 +2940,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -2969,7 +2969,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -2998,7 +2998,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -3028,7 +3028,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -3057,7 +3057,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -3085,7 +3085,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -3113,7 +3113,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -3141,7 +3141,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -3175,7 +3175,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -3203,7 +3203,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -3231,7 +3231,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -3259,7 +3259,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -3294,7 +3294,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -3322,7 +3322,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -3351,7 +3351,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -3380,7 +3380,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -3410,7 +3410,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -3439,7 +3439,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -3467,7 +3467,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -3495,7 +3495,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -3523,7 +3523,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -3557,7 +3557,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -3585,7 +3585,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -3613,7 +3613,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -3641,7 +3641,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -3676,7 +3676,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -3704,7 +3704,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -3733,7 +3733,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -3762,7 +3762,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -3792,7 +3792,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -3821,7 +3821,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -3849,7 +3849,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -3877,7 +3877,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -3905,7 +3905,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -3939,7 +3939,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -3967,7 +3967,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -3995,7 +3995,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -4023,7 +4023,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -4058,7 +4058,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -4086,7 +4086,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -4115,7 +4115,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -4144,7 +4144,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -4174,7 +4174,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -4203,7 +4203,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -4231,7 +4231,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -4259,7 +4259,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -4287,7 +4287,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -4321,7 +4321,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -4349,7 +4349,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -4377,7 +4377,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -4405,7 +4405,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -4440,7 +4440,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -4468,7 +4468,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -4497,7 +4497,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -4526,7 +4526,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -4556,7 +4556,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -4585,7 +4585,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -4613,7 +4613,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -4641,7 +4641,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -4669,7 +4669,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -4703,7 +4703,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -4731,7 +4731,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -4759,7 +4759,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -4787,7 +4787,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -4828,7 +4828,7 @@
         "trailmap:mapper": true,
         "trailmap:ways_only": false
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "rakennelma",
       "minzoom": 11,
       "filter": ["==", "kohdeluokka", 22392],
@@ -4853,7 +4853,7 @@
         "trailmap:mapper": true,
         "trailmap:ways_only": false
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "rakennelma",
       "minzoom": 11,
       "filter": ["==", "kohdeluokka", 22312],
@@ -4889,7 +4889,7 @@
         "trailmap:mapper": true,
         "trailmap:ways_only": false
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "rakennelma",
       "minzoom": 11,
       "filter": ["==", "kohdeluokka", 22311],
@@ -4969,7 +4969,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -4997,7 +4997,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",
@@ -5024,7 +5024,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "hallintoalue",
       "paint": {
         "line-color": "hsl(0,0%,65%)",
@@ -5034,7 +5034,7 @@
     {
       "id": "rakennelmat",
       "type": "line",
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "rakennelma",
       "filter": [
         "any",
@@ -5054,7 +5054,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": ["all", ["<", "tasosijainti", 1]],
       "layout": {
@@ -5082,7 +5082,7 @@
         "trailmap:mapper": true,
         "trailmap:ways_only": false
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "selite",
       "filter": [
         "all",
@@ -5134,7 +5134,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "nimisto",
       "filter": [
         "all",
@@ -5191,7 +5191,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "nimisto",
       "filter": [
         "all",
@@ -5250,7 +5250,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "nimisto",
       "filter": [
         "all",
@@ -5317,7 +5317,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "nimisto",
       "filter": [
         "match",
@@ -5353,7 +5353,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "nimisto",
       "filter": [
         "all",
@@ -7318,7 +7318,7 @@
       "metadata": {
         "trailmap:ways_only": true
       },
-      "source": "maastovektorikartta",
+      "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": [
         "all",

@@ -70,6 +70,9 @@
     {
       "id": "maasto_alue",
       "type": "fill",
+      "metadata": {
+        "trailmap:ways_only": false
+      },
       "source": "mml_topo",
       "source-layer": "maasto_alue",
       "filter": [
@@ -515,6 +518,9 @@
     {
       "id": "parkkipaikka_alue",
       "type": "fill",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "mml_topo",
       "source-layer": "liikenne",
       "filter": ["==", "kohdeluokka", 32421],
@@ -850,6 +856,9 @@
     {
       "id": "maasto_alue_vesi",
       "type": "fill",
+      "metadata": {
+        "trailmap:ways_only": true
+      },
       "source": "mml_topo",
       "source-layer": "maasto_alue",
       "filter": [

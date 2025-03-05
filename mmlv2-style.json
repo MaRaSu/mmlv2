@@ -177,6 +177,9 @@
     {
       "id": "maankaytto",
       "type": "fill",
+      "metadata": {
+        "trailmap:ways_only": false
+      },
       "source": "mml_topo",
       "source-layer": "maankaytto",
       "filter": [
@@ -541,7 +544,7 @@
         "trailmap:mtb": true,
         "trailmap:mtb_winter": true,
         "trailmap:gravel": true,
-        "trailmap:ways_only": false
+        "trailmap:ways_only": true
       },
       "source": "osm",
       "source-layer": "water",
@@ -563,7 +566,7 @@
         "trailmap:mtb_winter": true,
         "trailmap:gravel": true,
         "trailmap:mapper": true,
-        "trailmap:ways_only": false,
+        "trailmap:ways_only": true,
         "trailmap:safe-water-lake": true
       },
       "source": "osm",
@@ -591,7 +594,7 @@
         "trailmap:mtb": true,
         "trailmap:mtb_winter": true,
         "trailmap:gravel": true,
-        "trailmap:ways_only": false
+        "trailmap:ways_only": true
       },
       "source": "mml_topo",
       "source-layer": "vesisto_alue",
@@ -617,7 +620,7 @@
         "trailmap:mtb_winter": true,
         "trailmap:gravel": true,
         "trailmap:mapper": true,
-        "trailmap:ways_only": false,
+        "trailmap:ways_only": true,
         "trailmap:safe-water-lake": true
       },
       "source": "osm",
@@ -1055,7 +1058,7 @@
         "trailmap:mtb": false,
         "trailmap:mtb_winter": false,
         "trailmap:gravel": false,
-        "trailmap:ways_only": true
+        "trailmap:ways_only": false
       },
       "source": "mml_topo",
       "source-layer": "maasto_piste",

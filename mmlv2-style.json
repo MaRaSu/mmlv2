@@ -7000,6 +7000,198 @@
       }
     },
     {
+      "id": "poi_separate-water-circle-(poi_osm-all-osm)",
+      "type": "circle",
+      "metadata": {
+        "trailmap:mtb": false,
+        "trailmap:high_contrast": "no",
+        "trailmap:mtb_winter": false,
+        "trailmap:gravel": false,
+        "trailmap:mapper": false,
+        "trailmap:ways_only": true,
+        "trailmap:group": "poi-osm-water",
+        "trailmap:id_legacy": "POI-OSM-vesi-circles",
+        "trailmap:country": "all"
+      },
+      "source": "osm",
+      "source-layer": "poi_ext",
+      "minzoom": 8,
+      "filter": [
+        "all",
+        [
+          "match",
+          ["get", "subclass"],
+          ["drinking_water", "water_point", "spring", "water_tap", "fountain", "water_well"],
+          true,
+          false
+        ],
+        [
+          "any",
+          ["!=", ["get", "subclass"], "spring"],
+          ["!=", ["get", "drinking_water"], "no"],
+          [">=", ["zoom"], 15]
+        ]
+      ],
+      "layout": {
+        "visibility": "none"
+      },
+      "paint": {
+        "circle-radius": {
+          "stops": [
+            [14, 9],
+            [17, 22]
+          ]
+        },
+        "circle-opacity": {
+          "stops": [
+            [8, 0],
+            [8.5, 1]
+          ]
+        },
+        "circle-color": "#7200ff"
+      }
+    },
+    {
+      "id": "poi_separate-water-icon-(poi_osm-all-osm)",
+      "type": "symbol",
+      "metadata": {
+        "trailmap:mtb": false,
+        "trailmap:high_contrast": "no",
+        "trailmap:mtb_winter": false,
+        "trailmap:gravel": false,
+        "trailmap:mapper": false,
+        "trailmap:ways_only": true,
+        "trailmap:group": "poi-osm-water",
+        "trailmap:id_legacy": "POI-OSM-vesi-icons",
+        "trailmap:country": "all"
+      },
+      "source": "osm",
+      "source-layer": "poi_ext",
+      "minzoom": 8,
+      "filter": [
+        "all",
+        [
+          "match",
+          ["get", "subclass"],
+          ["drinking_water", "water_point", "spring", "water_tap", "fountain", "water_well"],
+          true,
+          false
+        ],
+        [
+          "any",
+          ["!=", ["get", "subclass"], "spring"],
+          ["!=", ["get", "drinking_water"], "no"],
+          [">=", ["zoom"], 15]
+        ]
+      ],
+      "layout": {
+        "visibility": "none",
+        "icon-allow-overlap": true,
+        "icon-image": [
+          "match",
+          ["get", "subclass"],
+          ["spring"],
+          [
+            "match",
+            ["get", "drinking_water"],
+            ["yes", "treated"],
+            "poi-drinking_water",
+            "poi-spring"
+          ],
+          ["water_point"],
+          "poi-water_point",
+          "poi-drinking_water"
+        ],
+        "icon-size": {
+          "stops": [
+            [14, 0.35],
+            [17, 1]
+          ]
+        }
+      },
+      "paint": {
+        "icon-opacity": {
+          "stops": [
+            [8, 0],
+            [9, 1]
+          ]
+        }
+      }
+    },
+    {
+      "id": "poi_separate-water-label-(poi_osm-all-osm)",
+      "type": "symbol",
+      "metadata": {
+        "trailmap:mtb": false,
+        "trailmap:high_contrast": "no",
+        "trailmap:mtb_winter": false,
+        "trailmap:gravel": false,
+        "trailmap:mapper": false,
+        "trailmap:ways_only": true,
+        "trailmap:group": "poi-osm-water",
+        "trailmap:id_legacy": "POI-OSM-vesi-labels",
+        "trailmap:country": "all"
+      },
+      "source": "osm",
+      "source-layer": "poi_ext",
+      "minzoom": 11,
+      "filter": [
+        "all",
+        [
+          "match",
+          ["get", "subclass"],
+          ["drinking_water", "water_point", "spring", "water_tap", "fountain", "water_well"],
+          true,
+          false
+        ],
+        [
+          "any",
+          ["!=", ["get", "subclass"], "spring"],
+          ["!=", ["get", "drinking_water"], "no"],
+          [">=", ["zoom"], 15]
+        ],
+        ["has", "name"]
+      ],
+      "layout": {
+        "visibility": "none",
+        "icon-allow-overlap": true,
+        "symbol-placement": "point",
+        "text-anchor": "top",
+        "text-field": "{name}",
+        "text-font": ["Noto Sans Regular"],
+        "text-size": {
+          "base": 1,
+          "stops": [
+            [12, 9],
+            [16, 13],
+            [18, 22]
+          ]
+        }
+      },
+      "paint": {
+        "text-translate": {
+          "base": 1,
+          "stops": [
+            [12, [0, 10]],
+            [14, [0, 13]],
+            [16, [0, 22]],
+            [18, [0, 28]]
+          ]
+        },
+        "text-opacity": {
+          "base": 1,
+          "stops": [
+            [12, 0],
+            [12.5, 1]
+          ]
+        },
+        "text-color": "#3b322a",
+        "text-halo-color": "#ffffff",
+        "text-halo-blur": 0.2,
+        "text-halo-width": 2
+      }
+    },
+    {
       "id": "poi_separate-traffic-circle-(poi_osm-all-osm)",
       "type": "circle",
       "metadata": {

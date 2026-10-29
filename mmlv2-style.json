@@ -6453,8 +6453,23 @@
               14
             ]
           ]
-        }
-      }
+        },
+        "line-opacity": [
+          "interpolate",
+          [
+            "exponential",
+            1
+          ],
+          [
+            "zoom"
+          ],
+          12,
+          0,
+          13,
+          1
+        ]
+      },
+      "minzoom": 12
     },
     {
       "id": "bridge-path/track/cw/fw-floor",
@@ -6498,15 +6513,30 @@
               12
             ]
           ]
-        }
-      }
+        },
+        "line-opacity": [
+          "interpolate",
+          [
+            "exponential",
+            1
+          ],
+          [
+            "zoom"
+          ],
+          12,
+          0,
+          13,
+          1
+        ]
+      },
+      "minzoom": 12
     },
     {
       "id": "osm-bridge-path",
       "source": "osm",
       "source-layer": "transportation",
       "type": "line",
-      "minzoom": 13,
+      "minzoom": 11,
       "filter": [
         "all",
         [
@@ -6553,6 +6583,13 @@
               1
             ]
           ]
+        ],
+        [
+          "!in",
+          "trail_visibility",
+          "bad",
+          "no",
+          "horrible"
         ]
       ],
       "layout": {
@@ -6736,17 +6773,299 @@
           ]
         ],
         "line-opacity": [
-          "case",
+          "interpolate",
           [
-            "==",
-            [
-              "get",
-              "noexit"
-            ],
-            1
+            "linear"
           ],
-          0.6,
-          1
+          [
+            "zoom"
+          ],
+          11,
+          0,
+          11.5,
+          0.7,
+          12.5,
+          [
+            "case",
+            [
+              "==",
+              [
+                "get",
+                "noexit"
+              ],
+              1
+            ],
+            0.6,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "id": "osm-bridge-path-badvis",
+      "source": "osm",
+      "source-layer": "transportation",
+      "type": "line",
+      "minzoom": 12,
+      "filter": [
+        "all",
+        [
+          "==",
+          "$type",
+          "LineString"
+        ],
+        [
+          "==",
+          "brunnel",
+          "bridge"
+        ],
+        [
+          "==",
+          "class",
+          "path"
+        ],
+        [
+          "any",
+          [
+            "!in",
+            "subclass",
+            "cycleway",
+            "footway",
+            "pedestrian",
+            "steps",
+            "corridor"
+          ],
+          [
+            "all",
+            [
+              "==",
+              "subclass",
+              "footway"
+            ],
+            [
+              "!=",
+              "surface",
+              "paved"
+            ],
+            [
+              "!=",
+              "indoor",
+              1
+            ]
+          ]
+        ],
+        [
+          "in",
+          "trail_visibility",
+          "bad",
+          "no",
+          "horrible"
+        ]
+      ],
+      "layout": {
+        "line-join": "round",
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "#000000",
+        "line-dasharray": [
+          1,
+          1.5
+        ],
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            2
+          ],
+          [
+            "zoom"
+          ],
+          11,
+          [
+            "*",
+            [
+              "match",
+              [
+                "get",
+                "width_cat"
+              ],
+              "a",
+              0.8,
+              [
+                "c",
+                "d"
+              ],
+              1.2,
+              1
+            ],
+            0.6
+          ],
+          12,
+          [
+            "*",
+            [
+              "match",
+              [
+                "get",
+                "width_cat"
+              ],
+              "a",
+              0.8,
+              [
+                "c",
+                "d"
+              ],
+              1.2,
+              1
+            ],
+            0.8
+          ],
+          13,
+          [
+            "*",
+            [
+              "match",
+              [
+                "get",
+                "width_cat"
+              ],
+              "a",
+              0.8,
+              [
+                "c",
+                "d"
+              ],
+              1.2,
+              1
+            ],
+            1.1
+          ],
+          14,
+          [
+            "*",
+            [
+              "match",
+              [
+                "get",
+                "width_cat"
+              ],
+              "a",
+              0.8,
+              [
+                "c",
+                "d"
+              ],
+              1.2,
+              1
+            ],
+            1.8
+          ],
+          15,
+          [
+            "*",
+            [
+              "match",
+              [
+                "get",
+                "width_cat"
+              ],
+              "a",
+              0.8,
+              [
+                "c",
+                "d"
+              ],
+              1.2,
+              1
+            ],
+            3.2
+          ],
+          16,
+          [
+            "*",
+            [
+              "match",
+              [
+                "get",
+                "width_cat"
+              ],
+              "a",
+              0.8,
+              [
+                "c",
+                "d"
+              ],
+              1.2,
+              1
+            ],
+            6.1
+          ],
+          17,
+          [
+            "*",
+            [
+              "match",
+              [
+                "get",
+                "width_cat"
+              ],
+              "a",
+              0.8,
+              [
+                "c",
+                "d"
+              ],
+              1.2,
+              1
+            ],
+            11.5
+          ],
+          20,
+          [
+            "*",
+            [
+              "match",
+              [
+                "get",
+                "width_cat"
+              ],
+              "a",
+              0.8,
+              [
+                "c",
+                "d"
+              ],
+              1.2,
+              1
+            ],
+            70
+          ]
+        ],
+        "line-opacity": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "zoom"
+          ],
+          12,
+          0,
+          12.5,
+          [
+            "case",
+            [
+              "==",
+              [
+                "get",
+                "noexit"
+              ],
+              1
+            ],
+            0.6,
+            1
+          ]
         ]
       }
     },

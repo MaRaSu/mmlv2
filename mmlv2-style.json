@@ -2974,7 +2974,15 @@
             60
           ]
         ]
-      }
+      },
+      "filter": [
+        "!=",
+        [
+          "get",
+          "kohdeluokka"
+        ],
+        38200
+      ]
     },
     {
       "id": "maastoaluereuna",
@@ -5113,7 +5121,7 @@
       ],
       "layout": {
         "line-join": "round",
-        "visibility": "visible"
+        "visibility": "none"
       },
       "paint": {
         "line-color": "#606060",
@@ -5147,6 +5155,10 @@
           20,
           52.0
         ]
+      },
+      "metadata": {
+        "trailmap:ways_only": true,
+        "trailmap:mtb_winter": true
       }
     },
     {
@@ -12989,11 +13001,6 @@
           "==",
           "kohdeluokka",
           45112
-        ],
-        [
-          "==",
-          "kohdeluokka",
-          44500
         ]
       ],
       "paint": {
@@ -13022,16 +13029,363 @@
           "==",
           "kohdeluokka",
           45112
-        ],
-        [
-          "==",
-          "kohdeluokka",
-          44500
         ]
       ],
       "paint": {
         "line-color": "#918a8c",
         "line-width": 0.5
+      }
+    },
+    {
+      "id": "mml-ilmarata",
+      "type": "line",
+      "source": "mml_ways",
+      "source-layer": "rakennelma",
+      "minzoom": 11,
+      "filter": [
+        "==",
+        [
+          "get",
+          "kohdeluokka"
+        ],
+        44500
+      ],
+      "layout": {
+        "line-join": "round",
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "#000000",
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            2
+          ],
+          [
+            "zoom"
+          ],
+          11,
+          0.5,
+          13,
+          1.1,
+          15,
+          2.6,
+          16,
+          4.2,
+          17,
+          6.5,
+          19,
+          16
+        ]
+      }
+    },
+    {
+      "id": "mml-aita",
+      "type": "line",
+      "source": "mml_ways",
+      "source-layer": "rakennelma",
+      "minzoom": 11,
+      "filter": [
+        "==",
+        [
+          "get",
+          "kohdeluokka"
+        ],
+        44211
+      ],
+      "layout": {
+        "line-join": "round",
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "#000000",
+        "line-opacity": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "zoom"
+          ],
+          11,
+          0,
+          11.5,
+          1
+        ],
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            2
+          ],
+          [
+            "zoom"
+          ],
+          11,
+          0.6,
+          13,
+          1.0,
+          15,
+          2.2,
+          17,
+          6,
+          19,
+          18
+        ]
+      }
+    },
+    {
+      "id": "mml-aita-helmet",
+      "type": "line",
+      "source": "mml_ways",
+      "source-layer": "rakennelma",
+      "minzoom": 13,
+      "filter": [
+        "==",
+        [
+          "get",
+          "kohdeluokka"
+        ],
+        44211
+      ],
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round",
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "#000000",
+        "line-dasharray": [
+          0.1,
+          3.2
+        ],
+        "line-opacity": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "zoom"
+          ],
+          13,
+          0,
+          13.5,
+          1
+        ],
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            2
+          ],
+          [
+            "zoom"
+          ],
+          13,
+          2.4,
+          15,
+          6.5,
+          16,
+          13,
+          17,
+          24,
+          19,
+          72
+        ]
+      }
+    },
+    {
+      "id": "mml-aita-istutettu",
+      "type": "line",
+      "source": "mml_ways",
+      "source-layer": "rakennelma",
+      "minzoom": 14,
+      "filter": [
+        "==",
+        [
+          "get",
+          "kohdeluokka"
+        ],
+        44213
+      ],
+      "layout": {
+        "line-join": "round",
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "#20a020",
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            2
+          ],
+          [
+            "zoom"
+          ],
+          14,
+          1.5,
+          16,
+          4,
+          18,
+          12
+        ]
+      }
+    },
+    {
+      "id": "mml-pato",
+      "type": "line",
+      "source": "mml_ways",
+      "source-layer": "rakennelma",
+      "minzoom": 12,
+      "filter": [
+        "==",
+        [
+          "get",
+          "kohdeluokka"
+        ],
+        30300
+      ],
+      "layout": {
+        "line-cap": "butt",
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "#000000",
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            2
+          ],
+          [
+            "zoom"
+          ],
+          12,
+          1.2,
+          14,
+          2.2,
+          16,
+          6,
+          18,
+          18
+        ]
+      }
+    },
+    {
+      "id": "mml-luiska",
+      "type": "line",
+      "source": "mml_ways",
+      "source-layer": "maasto_viiva",
+      "minzoom": 14,
+      "filter": [
+        "==",
+        [
+          "get",
+          "kohdeluokka"
+        ],
+        34800
+      ],
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "#7a4416",
+        "line-dasharray": [
+          0.2,
+          2.3
+        ],
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            2
+          ],
+          [
+            "zoom"
+          ],
+          14,
+          3,
+          15,
+          6,
+          16,
+          12,
+          17,
+          22,
+          19,
+          70
+        ],
+        "line-offset": [
+          "interpolate",
+          [
+            "exponential",
+            2
+          ],
+          [
+            "zoom"
+          ],
+          14,
+          1.5,
+          15,
+          3,
+          16,
+          6,
+          17,
+          11,
+          19,
+          35
+        ]
+      }
+    },
+    {
+      "id": "mml-koski",
+      "type": "line",
+      "source": "mml_ways",
+      "source-layer": "vesisto_viiva",
+      "minzoom": 12,
+      "filter": [
+        "==",
+        [
+          "get",
+          "kohdeluokka"
+        ],
+        38200
+      ],
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round",
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "#ffffff",
+        "line-opacity": 0.9,
+        "line-dasharray": [
+          0,
+          2.9
+        ],
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            2
+          ],
+          [
+            "zoom"
+          ],
+          12,
+          1.6,
+          13,
+          2.8,
+          14,
+          5.5,
+          15,
+          11,
+          16,
+          20,
+          17,
+          36
+        ]
       }
     },
     {
@@ -17058,6 +17412,114 @@
       }
     },
     {
+      "id": "mml-ilmarata-pylvas",
+      "type": "symbol",
+      "source": "mml_ways",
+      "source-layer": "rakennelma",
+      "minzoom": 13,
+      "filter": [
+        "==",
+        [
+          "get",
+          "kohdeluokka"
+        ],
+        44591
+      ],
+      "layout": {
+        "icon-image": "mmlhc_sym_44591",
+        "icon-rotate": [
+          "*",
+          [
+            "to-number",
+            [
+              "get",
+              "suunta"
+            ],
+            0
+          ],
+          -0.0057295779513
+        ],
+        "icon-rotation-alignment": "map",
+        "icon-size": [
+          "interpolate",
+          [
+            "exponential",
+            2
+          ],
+          [
+            "zoom"
+          ],
+          13,
+          0.35,
+          14,
+          0.6,
+          15,
+          1.0,
+          16,
+          2.0,
+          17,
+          3.6
+        ],
+        "icon-allow-overlap": true,
+        "icon-ignore-placement": true,
+        "visibility": "visible"
+      },
+      "paint": {}
+    },
+    {
+      "id": "mml-portti",
+      "type": "symbol",
+      "source": "mml_ways",
+      "source-layer": "rakennelma",
+      "minzoom": 14,
+      "filter": [
+        "==",
+        [
+          "get",
+          "kohdeluokka"
+        ],
+        45200
+      ],
+      "layout": {
+        "icon-image": "mmlhc_sym_45200",
+        "icon-rotate": [
+          "*",
+          [
+            "to-number",
+            [
+              "get",
+              "suunta"
+            ],
+            0
+          ],
+          -0.0057295779513
+        ],
+        "icon-rotation-alignment": "map",
+        "icon-size": [
+          "interpolate",
+          [
+            "exponential",
+            2
+          ],
+          [
+            "zoom"
+          ],
+          14,
+          0.9,
+          15,
+          1.3,
+          16,
+          2.2,
+          17,
+          4
+        ],
+        "icon-allow-overlap": true,
+        "icon-ignore-placement": true,
+        "visibility": "visible"
+      },
+      "paint": {}
+    },
+    {
       "id": "korkeus-label",
       "type": "symbol",
       "source": "mml_contours",
@@ -17259,7 +17721,8 @@
           32710,
           32713,
           32714,
-          32891
+          32891,
+          32715
         ],
         true,
         false
@@ -17279,6 +17742,8 @@
           "mmlhc_sym_32714",
           32891,
           "mmlhc_sym_32891",
+          32715,
+          "mmlhc_sym_32715",
           ""
         ],
         "icon-size": [
@@ -17575,6 +18040,11 @@
           "<",
           "tasosijainti",
           1
+        ],
+        [
+          "!=",
+          "kohdeluokka",
+          12312
         ]
       ],
       "layout": {

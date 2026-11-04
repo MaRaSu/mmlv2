@@ -167,6 +167,14 @@ SYM = {
     'mmlhc_sym_36400': (20, 22, (0, 128, 255), dict(segs=[((3, 2), (10, 20)), ((10, 20), (17, 2))])),
     # mast (poi 44800, MTK masto): filled disc with a cross, as in the raster
     'mmlhc_poi_44800': (24, 24, K, dict(segs=[((12, 1), (12, 23)), ((1, 12), (23, 12))], discs=[(12, 12, 5)])),
+    # fell symbol "\ /" (symboli 32715, almost only on fells)
+    'mmlhc_sym_32715': (28, 20, K, dict(segs=[((3, 2), (9.5, 18)), ((25, 2), (18.5, 18))])),
+    # cableway pylon (rakennelma 44591): a bar across the lift line; drawn along +x, the style
+    # rotates it by the point's suunta (MTK: anticlockwise from east, 1/10000 rad)
+    'mmlhc_sym_44591': (40, 8, K, dict(segs=[((3, 4), (37, 4))], width=4)),
+    # gate (rakennelma 45200): two gate posts across the fence; the fence runs along +x after
+    # the style rotates it by suunta (which follows the fence)
+    'mmlhc_sym_45200': (28, 32, K, dict(segs=[((4, 3), (4, 29)), ((24, 3), (24, 29))], width=3.6)),
     # campfire site (poi 45710, MTK tulentekopaikka): three triangles pointing to the centre
     'mmlhc_poi_45710': (28, 22, K, dict(polys=[[(14.0, 11.5), (20.0, 0.5), (8.0, 0.5)], [(15.47, 13.31), (25.08, 20.98), (27.37, 10.22)], [(12.53, 13.31), (0.63, 10.22), (2.92, 20.98)]])),
 }

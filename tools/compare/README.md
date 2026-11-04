@@ -18,6 +18,9 @@ URL: `?panels=mmlv2,mml-raster,mtb#13/60.307/24.505` (zoom/lat/lon, kept in sync
 - **r** reloads the styles in place (after editing `mmlv2-style.json`), **c** the crosshair.
 - Style options for every panel: `profile=mtb|gravel|winter`, `hc=1`, `raw=1` (no builder),
   `ref=<git ref>` (mtb-trailmap version), `d.<detail>=0|1` (e.g. `d.contour=0`).
+- `--local-tiles finland_ways=/path/finland_ways.pmtiles` (server and shoot): the working-copy
+  panels read that tile set from a local PMTiles archive, deployed panels keep the live tiles.
+  For previewing a rebuilt tile set before it is deployed.
 - Server flags: `--port`, `--mtb-repo` (default `../mtb-trailmap`), `--mtb-ref` (default
   `v81.9`, read with `git show`, so the checked-out branch does not matter), `--maplibre`
   (default: next-trailmap's `node_modules/maplibre-gl/dist`, the renderer the app uses).

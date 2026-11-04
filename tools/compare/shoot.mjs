@@ -96,7 +96,7 @@ const browser = await chromium.launch({
 const context = await browser.newContext({ viewport: { width, height }, deviceScaleFactor: scale });
 await context.route(`${ORIGIN}/**`, async (route) => {
 	const url = new URL(route.request().url());
-	const r = await handle(url.pathname, url.searchParams, opts);
+	const r = await handle(url.pathname, url.searchParams, opts, ORIGIN);
 	await route.fulfill({ status: r.status, contentType: r.type, body: r.body });
 });
 

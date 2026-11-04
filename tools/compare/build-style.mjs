@@ -27,16 +27,19 @@ const DETAILS_OPTIONS = [
 	['poi-osm-rest', false, 12],
 	['poi-osm-transit', false, 13],
 	['poi-osm-service', false, 13],
-	['poi-osm-water', false, 12]
+	['poi-osm-water', false, 12],
+	// mmlv2 v4.4 options (MML style only), not in the app yet
+	['mml-paths', false],
+	['osm-tracks', false]
 ];
 
 const POI_GROUPS = new Set(DETAILS_OPTIONS.filter((d) => d[2]).map((d) => d[0]));
 
 // APP_CONFIG_TRAILMAP_DETAILS / APP_CONFIG_MML_DETAILS: the details each map style offers
 const TRAILMAP_DETAILS = DETAILS_OPTIONS.map((d) => d[0]).filter(
-	(n) => n !== 'poi-lipas' && n !== 'poi-osm'
+	(n) => !['poi-lipas', 'poi-osm', 'mml-paths', 'osm-tracks'].includes(n)
 );
-const MML_DETAILS = ['hillshade', 'cadastral', 'depth-contour', ...POI_GROUPS];
+const MML_DETAILS = ['hillshade', 'cadastral', 'depth-contour', 'mml-paths', 'osm-tracks', ...POI_GROUPS];
 
 // APP_CONFIG_DEFAULT_DATA profiles (overrides on top of DETAILS_OPTIONS)
 export const PROFILES = {

@@ -8,6 +8,7 @@ import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { PANELS } from './panels.mjs';
 import { buildTrailmapV2, buildMmlLegacy } from './build-style.mjs';
+import { getTile } from './pmtiles.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 export const REPO = path.resolve(HERE, '../..');
@@ -55,7 +56,24 @@ async function loadSource(src) {
 	throw new Error('panel has no source');
 }
 
-async function panelStyle(id, query, opts) {
+// --local-tiles name=FILE[,name=FILE]: working-copy panels read vector.trailmap.fi/data/<name>
+// from a local PMTiles archive instead (a rebuilt tile set, before it is deployed). Deployed
+// panels keep the live tiles, so the two sides compare before and after.
+function localTiles(opts) {
+	if (typeof opts.localTiles !== 'string') return {};
+	return Object.fromEntries(opts.localTiles.split(',').map((kv) => kv.split('=')));
+}
+
+function useLocalTiles(style, opts, origin) {
+	const local = localTiles(opts);
+	for (const s of Object.values(style.sources)) {
+		for (const name of Object.keys(local)) {
+			if (s.tiles?.some((t) => t.includes(`/data/${name}/`))) s.tiles = [`${origin}/local/${name}/{z}/{x}/{y}.pbf`];
+		}
+	}
+}
+
+async function panelStyle(id, query, opts, origin) {
 	const panel = PANELS[id];
 	if (!panel) throw new Error(`unknown panel ${id}`);
 	if (panel.style) return panel.style; // inline style (raster panels)
@@ -67,6 +85,7 @@ async function panelStyle(id, query, opts) {
 		if (query.get('ref')) src.git[1] = query.get('ref');
 	}
 	const style = await loadSource(src);
+	if (src.file) useLocalTiles(style, opts, origin);
 	const details = {};
 	for (const [k, v] of query) if (k.startsWith('d.')) details[k.slice(2)] = v === '1';
 	if (query.get('raw') === '1' || !panel.build) return style;
@@ -103,7 +122,7 @@ function file(f) {
 const json = (v) => ({ status: 200, type: 'application/json', body: JSON.stringify(v) });
 
 /** -> {status, type, body} for a request path and query */
-export async function handle(pathname, query, opts = DEFAULTS) {
+export async function handle(pathname, query, opts = DEFAULTS, origin = '') {
 	const p = decodeURIComponent(pathname);
 	try {
 		if (p === '/' || p === '/index.html') return file(path.join(HERE, 'compare.html'));
@@ -118,7 +137,13 @@ export async function handle(pathname, query, opts = DEFAULTS) {
 		}
 		if (p === '/locations.json') return file(path.join(HERE, 'locations.json'));
 		const m = p.match(/^\/style\/([\w.-]+)\.json$/);
-		if (m) return json(await panelStyle(m[1], query, opts));
+		if (m) return json(await panelStyle(m[1], query, opts, origin));
+		const t = p.match(/^\/local\/([\w.-]+)\/(\d+)\/(\d+)\/(\d+)\.pbf$/);
+		if (t) {
+			const file = localTiles(opts)[t[1]];
+			const tile = file && getTile(file, +t[2], +t[3], +t[4]);
+			return tile ? { status: 200, type: 'application/x-protobuf', body: tile } : { status: 204, type: 'text/plain', body: '' };
+		}
 		if (p.startsWith('/vendor/maplibre/')) return file(path.join(path.resolve(opts.maplibre), path.basename(p)));
 		// Pattern images not yet in the shared sprite (tools/v4/make_patterns.py)
 		if (p.startsWith('/patterns/')) return file(path.join(REPO, 'tools/v4/patterns', path.basename(p)));

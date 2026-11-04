@@ -43,6 +43,22 @@
         70.2
       ]
     },
+    "fin_relief_hillshade": {
+      "type": "raster",
+      "tiles": [
+        "https://vector.trailmap.fi/data/fin_relief_hillshade/{z}/{x}/{y}.webp"
+      ],
+      "tileSize": 256,
+      "minzoom": 8,
+      "maxzoom": 10,
+      "bounds": [
+        19.08,
+        62.84,
+        31.59,
+        70.09
+      ],
+      "attribution": "Hillshade © Mapterhorn, CC BY"
+    },
     "mml_ortho": {
       "type": "raster",
       "maxzoom": 17,
@@ -1283,6 +1299,46 @@
           12,
           0
         ]
+      }
+    },
+    {
+      "id": "fin_hillshade-lowzoom",
+      "type": "raster",
+      "metadata": {
+        "trailmap:mtb": true,
+        "trailmap:mtb_winter": true,
+        "trailmap:gravel": true,
+        "trailmap:ways_only": false,
+        "trailmap:group": "hillshade"
+      },
+      "source": "fin_relief_hillshade",
+      "minzoom": 8,
+      "maxzoom": 12,
+      "layout": {
+        "visibility": "visible"
+      },
+      "paint": {
+        "raster-opacity": {
+          "stops": [
+            [
+              8,
+              0.3
+            ],
+            [
+              10,
+              0.4
+            ],
+            [
+              11,
+              0.3
+            ],
+            [
+              11.6,
+              0
+            ]
+          ]
+        },
+        "raster-fade-duration": 0
       }
     },
     {
@@ -3801,6 +3857,89 @@
       }
     },
     {
+      "id": "osm-track",
+      "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true,
+        "trailmap:group": "osm-tracks"
+      },
+      "source": "osm",
+      "source-layer": "transportation",
+      "minzoom": 10,
+      "filter": [
+        "all",
+        [
+          "==",
+          "$type",
+          "LineString"
+        ],
+        [
+          "!=",
+          "brunnel",
+          "tunnel"
+        ],
+        [
+          "==",
+          "class",
+          "track"
+        ]
+      ],
+      "layout": {
+        "line-join": "round",
+        "visibility": "none"
+      },
+      "paint": {
+        "line-color": "#8c8c8c",
+        "line-dasharray": [
+          5,
+          1.2
+        ],
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            2
+          ],
+          [
+            "zoom"
+          ],
+          10,
+          0.41,
+          11,
+          0.54,
+          12,
+          0.75,
+          13,
+          1.02,
+          14,
+          1.63,
+          15,
+          2.94,
+          16,
+          5.55,
+          17,
+          10.45,
+          18,
+          19.58,
+          20,
+          65.28
+        ],
+        "line-opacity": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "zoom"
+          ],
+          10,
+          0,
+          10.5,
+          1
+        ]
+      }
+    },
+    {
       "id": "road-case-tunnel",
       "type": "line",
       "source": "mml_ways",
@@ -4685,7 +4824,7 @@
       "type": "line",
       "source": "mml_ways",
       "source-layer": "liikenne",
-      "minzoom": 11,
+      "minzoom": 10,
       "filter": [
         "all",
         [
@@ -4735,6 +4874,8 @@
           [
             "zoom"
           ],
+          10,
+          0.6,
           11,
           0.8,
           12,
@@ -4901,6 +5042,97 @@
           15.600000000000001,
           20,
           52.0
+        ]
+      }
+    },
+    {
+      "id": "mml-polku",
+      "type": "line",
+      "metadata": {
+        "trailmap:ways_only": true,
+        "trailmap:group": "mml-paths"
+      },
+      "source": "mml_ways",
+      "source-layer": "liikenne",
+      "minzoom": 11,
+      "filter": [
+        "all",
+        [
+          "==",
+          [
+            "geometry-type"
+          ],
+          "LineString"
+        ],
+        [
+          "match",
+          [
+            "get",
+            "kohdeluokka"
+          ],
+          [
+            12313
+          ],
+          true,
+          false
+        ],
+        [
+          ">=",
+          [
+            "get",
+            "tasosijainti"
+          ],
+          0
+        ]
+      ],
+      "layout": {
+        "line-join": "round",
+        "visibility": "none"
+      },
+      "paint": {
+        "line-color": "#000000",
+        "line-dasharray": [
+          4,
+          2
+        ],
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            2
+          ],
+          [
+            "zoom"
+          ],
+          11,
+          0.6,
+          12,
+          0.8,
+          13,
+          1.1,
+          14,
+          1.8,
+          15,
+          3.2,
+          16,
+          6.1,
+          17,
+          11.5,
+          20,
+          70
+        ],
+        "line-opacity": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "zoom"
+          ],
+          11,
+          0,
+          11.5,
+          1
         ]
       }
     },

@@ -1,0 +1,15 @@
+[
+	{ "name": "finland", "lat": 64.5, "lon": 26.0, "zooms": [5, 6], "note": "whole country, lowest zooms" },
+	{ "name": "jyvaskyla", "lat": 62.242, "lon": 25.747, "zooms": [8, 9, 10, 11], "note": "regional overview: towns, main roads, lakes" },
+	{ "name": "helsinki", "lat": 60.1699, "lon": 24.9384, "zooms": [12, 14, 15, 16], "note": "dense urban: buildings, streets, labels" },
+	{ "name": "kehä3", "lat": 60.3155, "lon": 24.8305, "zooms": [12, 14], "note": "motorway, interchanges, road class colours" },
+	{ "name": "keskuspuisto", "lat": 60.2585, "lon": 24.925, "zooms": [13, 14, 15, 16], "note": "urban forest: OSM paths/tracks vs MML paths" },
+	{ "name": "nuuksio", "lat": 60.307, "lon": 24.505, "zooms": [12, 13, 14, 15, 16], "note": "forest, lakes, cliffs, contours, nature reserve, trails" },
+	{ "name": "kauppi", "lat": 61.512, "lon": 23.82, "zooms": [13, 14, 15], "note": "MTB trail network in a city forest" },
+	{ "name": "seinajoki", "lat": 62.79, "lon": 22.84, "zooms": [11, 13, 14], "note": "farmland, rural roads, ditches" },
+	{ "name": "nauvo", "lat": 60.19, "lon": 21.91, "zooms": [10, 12, 14], "note": "archipelago: sea, islands, rocks, fairways" },
+	{ "name": "koli", "lat": 63.096, "lon": 29.807, "zooms": [11, 13, 15], "note": "hills and steep contours, hillshade" },
+	{ "name": "pallas", "lat": 68.06, "lon": 24.06, "zooms": [10, 12, 14], "note": "fells: open land, contours, sparse paths" },
+	{ "name": "aapa", "lat": 67.6, "lon": 26.9, "zooms": [11, 13], "note": "Lapland mires / swamp patterns" },
+	{ "name": "rovaniemi", "lat": 66.5, "lon": 25.73, "zooms": [11, 13], "note": "small city, rivers, bridges" }
+]

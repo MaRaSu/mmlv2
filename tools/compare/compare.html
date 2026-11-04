@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Map Style Compare</title>
+<link rel="stylesheet" href="/vendor/maplibre/maplibre-gl.css">
+<style>
+	:root { color-scheme: dark; --bar: #1d2126; --bar-fg: #e8eaed; --muted: #9aa0a6; --accent: #e8a33d; }
+	html, body { margin: 0; height: 100%; background: #111; color: var(--bar-fg);
+		font: 13px/1.35 system-ui, -apple-system, sans-serif; }
+	body { display: flex; flex-direction: column; }
+	#bar { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; padding: 6px 10px;
+		background: var(--bar); border-bottom: 1px solid #333; }
+	#bar label { color: var(--muted); }
+	#bar select, #bar input, #bar button { font: inherit; background: #2b3036; color: var(--bar-fg);
+		border: 1px solid #444; border-radius: 4px; padding: 2px 6px; }
+	#bar button:hover { border-color: var(--accent); }
+	#zooms { display: inline-flex; gap: 3px; }
+	#zooms button { padding: 2px 5px; }
+	#pos { font-variant-numeric: tabular-nums; color: var(--accent); min-width: 16ch; }
+	#grid { flex: 1; display: grid; gap: 2px; background: #111; min-height: 0; }
+	.cell { position: relative; overflow: hidden; background: #fff; }
+	.cell .map { position: absolute; inset: 0; }
+	.tag { position: absolute; left: 6px; top: 6px; z-index: 5; padding: 2px 7px; border-radius: 3px;
+		background: rgba(20, 22, 25, .82); color: #fff; font-size: 12px; pointer-events: none; }
+	.tag.err { background: #a1281f; }
+	.cross { position: absolute; left: 50%; top: 50%; width: 21px; height: 21px; margin: -10px 0 0 -10px;
+		z-index: 4; pointer-events: none; opacity: .55;
+		background: linear-gradient(#e0218a, #e0218a) center/1px 100% no-repeat,
+			linear-gradient(#e0218a, #e0218a) center/100% 1px no-repeat; }
+	body.nocross .cross { display: none; }
+	.overlay .map.top { pointer-events: none; }
+	#info { position: fixed; right: 8px; bottom: 8px; z-index: 20; max-width: min(560px, 90vw); max-height: 55vh;
+		overflow: auto; background: rgba(20, 22, 25, .94); border: 1px solid #444; border-radius: 6px;
+		padding: 8px 10px; font: 12px/1.4 ui-monospace, Menlo, monospace; white-space: pre-wrap; display: none; }
+	#info b { color: var(--accent); font-weight: 600; }
+	.swatch { display: inline-block; width: 11px; height: 11px; vertical-align: -1px; border: 1px solid #888; }
+</style>
+</head>
+<body>
+<div id="bar">
+	<span id="pos"></span>
+	<label>panels <input id="panels" size="34" title="comma separated panel ids"></label>
+	<label>mode <select id="mode"><option value="grid">grid</option><option value="overlay">overlay</option></select></label>
+	<label id="opwrap">top opacity <input id="opacity" type="range" min="0" max="100" value="50"></label>
+	<label id="blendwrap">blend <select id="blend">
+		<option value="normal">normal</option><option value="difference">difference</option>
+	</select></label>
+	<label>go <select id="loc"><option value="">location…</option></select></label>
+	<span id="zooms"></span>
+	<button id="reload" title="reload styles (r)">reload styles</button>
+	<button id="crossbtn" title="toggle crosshair (c)">crosshair</button>
+	<span style="color:var(--muted)">click = inspect · i = close</span>
+</div>
+<div id="grid"></div>
+<pre id="info"></pre>
+
+<script type="module">
+import * as maplibregl from '/vendor/maplibre/maplibre-gl.mjs';
+if (maplibregl.setWorkerUrl) maplibregl.setWorkerUrl('/vendor/maplibre/maplibre-gl-worker.mjs');
+
+const $ = (id) => document.getElementById(id);
+const params = new URLSearchParams(location.search);
+const ALL = await (await fetch('/panels.json')).json();
+const LABEL = Object.fromEntries(ALL.map((p) => [p.id, p.label]));
+const KIND = Object.fromEntries(ALL.map((p) => [p.id, p.kind]));
+
+const panelIds = (params.get('panels') || 'mmlv2,mml-raster,mtb').split(',').filter((id) => LABEL[id]);
+const mode = params.get('mode') || 'grid';
+// Passed through to every style URL: profile, hc, raw, ref, d.<detail>=0|1
+const styleQuery = new URLSearchParams();
+for (const [k, v] of params) if (['profile', 'hc', 'raw', 'ref'].includes(k) || k.startsWith('d.')) styleQuery.set(k, v);
+
+function parseHash() {
+	const parts = location.hash.slice(1).split('/');
+	const [z, lat, lon] = parts.map(Number);
+	const ok = parts.length === 3 && [z, lat, lon].every(Number.isFinite);
+	return ok ? { zoom: z, center: [lon, lat] } : { zoom: 13, center: [24.505, 60.307] };
+}
+
+$('panels').value = panelIds.join(',');
+$('mode').value = mode;
+$('opacity').value = params.get('opacity') ?? 50;
+$('blend').value = params.get('blend') || 'normal';
+$('opwrap').style.display = $('blendwrap').style.display = mode === 'overlay' ? '' : 'none';
+
+function navigate(changes) {
+	const p = new URLSearchParams(location.search);
+	for (const [k, v] of Object.entries(changes)) v == null ? p.delete(k) : p.set(k, v);
+	location.search = p.toString() + location.hash;
+}
+$('panels').addEventListener('change', (e) => navigate({ panels: e.target.value.replace(/\s/g, '') }));
+$('mode').addEventListener('change', (e) => navigate({ mode: e.target.value }));
+$('blend').addEventListener('change', (e) => { applyOverlay(); });
+$('opacity').addEventListener('input', () => applyOverlay());
+
+const grid = $('grid');
+const start = parseHash();
+const maps = [];
+
+const n = panelIds.length;
+if (mode === 'overlay') {
+	grid.style.gridTemplateColumns = '1fr';
+} else {
+	const cols = Number(params.get('cols')) || (n <= 3 ? n : Math.ceil(Math.sqrt(n)));
+	grid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+	grid.style.gridTemplateRows = `repeat(${Math.ceil(n / cols)}, 1fr)`;
+}
+
+function styleUrl(id) {
+	const q = new URLSearchParams(styleQuery);
+	q.set('t', Date.now());
+	return `/style/${id}.json?${q}`;
+}
+
+let overlayCell;
+panelIds.forEach((id, i) => {
+	let cell;
+	if (mode === 'overlay' && overlayCell) cell = overlayCell;
+	else {
+		cell = document.createElement('div');
+		cell.className = 'cell' + (mode === 'overlay' ? ' overlay' : '');
+		grid.appendChild(cell);
+		overlayCell = cell;
+		const cross = document.createElement('div');
+		cross.className = 'cross';
+		cell.appendChild(cross);
+	}
+	const el = document.createElement('div');
+	el.className = 'map' + (mode === 'overlay' && i > 0 ? ' top' : '');
+	cell.appendChild(el);
+	const tag = document.createElement('div');
+	tag.className = 'tag';
+	tag.textContent = LABEL[id];
+	if (mode === 'overlay') tag.style.top = 6 + i * 24 + 'px';
+	cell.appendChild(tag);
+
+	const map = new maplibregl.Map({
+		container: el,
+		style: styleUrl(id),
+		center: start.center,
+		zoom: start.zoom,
+		attributionControl: false,
+		canvasContextAttributes: { preserveDrawingBuffer: true },
+		preserveDrawingBuffer: true,
+		fadeDuration: 0,
+		maxZoom: 20
+	});
+	// Images named mmlhc_* are patterns not yet in the shared sprite: supply them from /patterns/
+	const pending = {};
+	map.setMissingStyleImageResolver((id) => {
+		if (!id.startsWith('mmlhc_')) return;
+		pending[id] ||= (async () => {
+			const res = await fetch(`/patterns/${id}.png`);
+			if (!res.ok) return;
+			const img = await createImageBitmap(await res.blob());
+			if (!map.hasImage(id)) map.addImage(id, img, { pixelRatio: 2 });
+		})();
+		return pending[id];
+	});
+	map.on('error', (e) => {
+		const msg = e?.error?.message || String(e?.error || e);
+		console.warn(`[${id}]`, msg);
+		map._errors = (map._errors || 0) + 1;
+		tag.classList.add('err');
+		tag.textContent = `${LABEL[id]} — ${map._errors} error(s)`;
+	});
+	maps.push({ id, map, el, tag });
+});
+
+function applyOverlay() {
+	if (mode !== 'overlay') return;
+	maps.slice(1).forEach(({ el }) => {
+		el.style.opacity = $('opacity').value / 100;
+		el.style.mixBlendMode = $('blend').value;
+	});
+}
+applyOverlay();
+
+// Keep every map on the same view as the one being moved
+let syncing = false;
+function sync(src) {
+	if (syncing) return;
+	syncing = true;
+	const view = { center: src.getCenter(), zoom: src.getZoom(), bearing: src.getBearing(), pitch: src.getPitch() };
+	for (const { map } of maps) if (map !== src) map.jumpTo(view);
+	syncing = false;
+	const c = view.center;
+	$('pos').textContent = `z${view.zoom.toFixed(2)}  ${c.lat.toFixed(5)}, ${c.lng.toFixed(5)}`;
+	history.replaceState(null, '', `${location.search}#${view.zoom.toFixed(2)}/${c.lat.toFixed(5)}/${c.lng.toFixed(5)}`);
+}
+maps.forEach(({ map }) => map.on('move', () => sync(map)));
+sync(maps[0].map);
+
+function reloadStyles() {
+	maps.forEach(({ id, map, tag }) => {
+		map._errors = 0;
+		tag.classList.remove('err');
+		tag.textContent = LABEL[id];
+		map.setStyle(styleUrl(id), { diff: false });
+	});
+}
+$('reload').addEventListener('click', reloadStyles);
+$('crossbtn').addEventListener('click', () => document.body.classList.toggle('nocross'));
+if (params.get('cross') === '0') document.body.classList.add('nocross');
+
+const locs = await (await fetch('/locations.json')).json();
+// Location picker: the place, then one button per zoom listed for it
+locs.forEach((l, i) => {
+	const o = document.createElement('option');
+	o.value = i;
+	o.textContent = l.name;
+	o.title = l.note || '';
+	$('loc').appendChild(o);
+});
+function showZooms(l) {
+	const box = $('zooms');
+	box.replaceChildren();
+	for (const z of l.zooms) {
+		const b = document.createElement('button');
+		b.textContent = 'z' + z;
+		b.addEventListener('click', () => maps[0].map.jumpTo({ zoom: z, center: [l.lon, l.lat] }));
+		box.appendChild(b);
+	}
+}
+$('loc').addEventListener('change', (e) => {
+	if (e.target.value === '') return;
+	const l = locs[Number(e.target.value)];
+	showZooms(l);
+	maps[0].map.jumpTo({ zoom: l.zooms[Math.floor(l.zooms.length / 2)], center: [l.lon, l.lat] });
+});
+
+// Inspect: rendered pixel colour and the topmost vector features under a point, per panel
+function pixelAt(map, point) {
+	const gl = map.painter?.context?.gl || map.getCanvas().getContext('webgl2') || map.getCanvas().getContext('webgl');
+	if (!gl) return null;
+	const r = window.devicePixelRatio || 1;
+	const buf = new Uint8Array(4);
+	gl.readPixels(Math.round(point.x * r), Math.round(gl.drawingBufferHeight - point.y * r), 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, buf);
+	return '#' + [buf[0], buf[1], buf[2]].map((v) => v.toString(16).padStart(2, '0')).join('');
+}
+
+function inspect(point, radius = 3) {
+	const out = [];
+	for (const { id, map } of maps) {
+		const color = pixelAt(map, point);
+		const box = [[point.x - radius, point.y - radius], [point.x + radius, point.y + radius]];
+		let features = [];
+		if (KIND[id] !== 'raster') {
+			const seen = new Set();
+			for (const f of map.queryRenderedFeatures(box)) {
+				if (seen.has(f.layer.id)) continue;
+				seen.add(f.layer.id);
+				const props = Object.entries(f.properties).filter(([k]) => !/^name_|^id$/.test(k)).slice(0, 8);
+				features.push({ layer: f.layer.id, type: f.layer.type, src: `${f.layer.source}/${f.sourceLayer || ''}`, props: Object.fromEntries(props) });
+			}
+		}
+		out.push({ panel: id, color, features });
+	}
+	return out;
+}
+window.__inspect = (x, y, r) => inspect({ x, y }, r);
+window.__inspectLngLat = (lng, lat, r) => inspect(maps[0].map.project([lng, lat]), r);
+
+function showInspect(res, lngLat) {
+	const info = $('info');
+	info.innerHTML = `<b>${lngLat.lat.toFixed(5)}, ${lngLat.lng.toFixed(5)}</b>\n` + res.map((p) => {
+		const head = `\n<b>${p.panel}</b>  <span class="swatch" style="background:${p.color}"></span> ${p.color}`;
+		const fs = p.features.slice(0, 12).map((f) => `  ${f.layer} [${f.type}] ${f.src}\n    ${JSON.stringify(f.props)}`);
+		return [head, ...fs].join('\n');
+	}).join('\n');
+	info.style.display = 'block';
+}
+maps.forEach(({ map }) => map.on('click', (e) => showInspect(inspect(e.point), e.lngLat)));
+document.addEventListener('keydown', (e) => {
+	if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
+	if (e.key === 'i' || e.key === 'Escape') $('info').style.display = 'none';
+	if (e.key === 'r') reloadStyles();
+	if (e.key === 'c') document.body.classList.toggle('nocross');
+});
+
+function readCanvas(map) {
+	const gl = map.painter.context.gl;
+	const W = gl.drawingBufferWidth, H = gl.drawingBufferHeight;
+	const b = new Uint8Array(W * H * 4);
+	gl.readPixels(0, 0, W, H, gl.RGBA, gl.UNSIGNED_BYTE, b);
+	return { b, W, H };
+}
+
+// Line weights: per colour family (black ways, brown contours, blue water lines), the 30th
+// percentile of run lengths across a grid of horizontal and vertical scans, in CSS px. Crossings
+// at an angle are longer than the true width, so a low percentile approximates it. Compare
+// panels with each other, not with absolute widths.
+const FAMILY = (r, g, b) => {
+	if ((r + g + b) / 3 < 70) return 'black';
+	if (r > 120 && g < 120 && b < 70 && r - g > 35) return 'brown';
+	if (b > 170 && r < 110 && g < 200) return 'blue';
+	return null;
+};
+function measure() {
+	const out = {};
+	for (const { id, map } of maps) {
+		const { b, W, H } = readCanvas(map);
+		const d = window.devicePixelRatio || 1;
+		const runs = { black: [], brown: [], blue: [] };
+		const scan = (n, at) => {
+			let cur = null, len = 0;
+			for (let k = 0; k < n; k++) {
+				const i = at(k);
+				const c = FAMILY(b[i], b[i + 1], b[i + 2]);
+				if (c === cur) len++;
+				else { if (cur && len < 60) runs[cur].push(len / d); cur = c; len = 1; }
+			}
+		};
+		for (let x = 20; x < W; x += 37) scan(H, (y) => (y * W + x) * 4);
+		for (let y = 20; y < H; y += 37) scan(W, (x) => (y * W + x) * 4);
+		const q = (a) => (a.length < 8 ? null : +[...a].sort((p, r) => p - r)[Math.floor(a.length * 0.3)].toFixed(1));
+		out[id] = { black: q(runs.black), brown: q(runs.brown), blue: q(runs.blue) };
+	}
+	return out;
+}
+window.__measure = measure;
+
+// Fill colours: for every fill class a vector panel draws (layer + kohdeluokka/class), the
+// most common colour of the reference panel at the same pixels, sampling only points with no
+// line or label on top in the vector panel.
+function sampleClasses(vectorId, refId, step = 9) {
+	const v = maps.find((m) => m.id === vectorId).map, ref = maps.find((m) => m.id === refId).map;
+	const R = readCanvas(ref);
+	const d = window.devicePixelRatio || 1;
+	const acc = {};
+	const cw = v.getCanvas().clientWidth, ch = v.getCanvas().clientHeight;
+	for (let x = step; x < cw; x += step) for (let y = step; y < ch; y += step) {
+		const fs = v.queryRenderedFeatures([x, y]);
+		if (fs.some((f) => f.layer.type === 'line' || f.layer.type === 'symbol')) continue;
+		const f = fs.find((f) => f.layer.type === 'fill');
+		if (!f) continue;
+		const key = `${f.layer.id.replace(' (ways)', '')}:${f.properties.kohdeluokka ?? f.properties.class ?? ''}`;
+		const i = ((R.H - Math.round(y * d)) * R.W + Math.round(x * d)) * 4;
+		const c = '#' + [R.b[i], R.b[i + 1], R.b[i + 2]].map((n) => ((n >> 3) << 3 | 4).toString(16).padStart(2, '0')).join('');
+		(acc[key] ||= {})[c] = (acc[key][c] || 0) + 1;
+	}
+	const out = {};
+	for (const [k, h] of Object.entries(acc)) {
+		const tot = Object.values(h).reduce((a, n) => a + n, 0);
+		const [c, n] = Object.entries(h).sort((a, b) => b[1] - a[1])[0];
+		out[k] = { colour: c, share: Math.round((100 * n) / tot), n: tot };
+	}
+	return out;
+}
+window.__sampleClasses = sampleClasses;
+
+// For the screenshot script: resolves when every map has loaded its style and tiles
+window.__compare = {
+	maps,
+	idle(timeout = 30000) {
+		const one = ({ map }) => new Promise((resolve) => {
+			const done = () => resolve(true);
+			const check = () => (map.loaded() && map.areTilesLoaded() && !map.isMoving() ? done() : map.once('idle', done));
+			if (map.isStyleLoaded()) check();
+			else map.once('idle', done);
+		});
+		return Promise.race([
+			Promise.all(maps.map(one)),
+			new Promise((r) => setTimeout(() => r(false), timeout))
+		]);
+	},
+	jump(z, lat, lon) { maps[0].map.jumpTo({ zoom: z, center: [lon, lat] }); },
+	errors() { return maps.map(({ id, map }) => ({ id, errors: map._errors || 0 })); }
+};
+</script>
+</body>
+</html>

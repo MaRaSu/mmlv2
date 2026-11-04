@@ -1,0 +1,8 @@
+[
+	{ "name": "s32713", "lat": 60.2926, "lon": 24.54425, "zooms": [15.5], "note": "symboli 32713 open arc" },
+	{ "name": "s32891", "lat": 60.28952, "lon": 24.55077, "zooms": [15.5], "note": "symboli 32891 II on meadow" },
+	{ "name": "s22395", "lat": 60.28627, "lon": 24.60432, "zooms": [15.5], "note": "symboli 22395 zigzag" },
+	{ "name": "p36100", "lat": 60.28649, "lon": 24.58606, "zooms": [15.5], "note": "maasto_piste 36100 spring" },
+	{ "name": "p36400", "lat": 60.29871, "lon": 24.55083, "zooms": [15.5], "note": "maasto_piste 36400 blue V" },
+	{ "name": "owner", "lat": 60.30753, "lon": 24.5639, "zooms": [13, 14.1, 15], "note": "owner's size check" }
+]

@@ -61,16 +61,30 @@
     },
     "mml_ortho": {
       "type": "raster",
-      "maxzoom": 17,
+      "tileSize": 256,
+      "maxzoom": 16,
+      "bounds": [
+        19.0,
+        59.3,
+        32.0,
+        70.2
+      ],
       "tiles": [
-        "https://avoin-karttakuva.maanmittauslaitos.fi/avoin/wmts/1.0.0/ortokuva/default/WGS84_Pseudo-Mercator/{z}/{y}/{x}.png?api-key=e77a367c-c6f4-417e-870c-b55d156de596"
+        "https://mml.trailmap.fi/aerial/{z}/{x}/{y}"
       ]
     },
     "mml_ortho_kapsi": {
       "type": "raster",
+      "tileSize": 256,
       "maxzoom": 19,
+      "bounds": [
+        19.0,
+        59.3,
+        32.0,
+        70.2
+      ],
       "tiles": [
-        "https://tiles.kartat.kapsi.fi/ortokuva?service=WMS&request=GetMap&format=image%2Fjpeg&transparent=true&version=1.1.1&srs=EPSG%3A3857&bbox={bbox-epsg-3857}&width=512&height=512"
+        "https://mml.trailmap.fi/aerial/{z}/{x}/{y}"
       ]
     },
     "taustakartta-rasteri": {
@@ -3842,7 +3856,6 @@
       "id": "alt_base_ortho",
       "type": "raster",
       "source": "mml_ortho",
-      "maxzoom": 16,
       "layout": {
         "visibility": "none"
       }
@@ -5035,6 +5048,68 @@
           ],
           true,
           false
+        ],
+        [
+          ">=",
+          [
+            "get",
+            "tasosijainti"
+          ],
+          0
+        ]
+      ],
+      "layout": {
+        "line-join": "round",
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "#000000",
+        "line-dasharray": [
+          7,
+          1.2
+        ],
+        "line-width": [
+          "interpolate",
+          [
+            "exponential",
+            2
+          ],
+          [
+            "zoom"
+          ],
+          12,
+          0.8,
+          13,
+          1.1,
+          14,
+          1.9,
+          15,
+          3.42,
+          16,
+          6.46,
+          17,
+          12.16,
+          18,
+          22.799999999999997,
+          20,
+          76.0
+        ]
+      }
+    },
+    {
+      "id": "osm-pyoratie",
+      "type": "line",
+      "source": "mml_ways",
+      "source-layer": "osm_pyoratie",
+      "minzoom": 12,
+      "filter": [
+        "all",
+        [
+          "==",
+          [
+            "geometry-type"
+          ],
+          "LineString"
         ],
         [
           ">=",

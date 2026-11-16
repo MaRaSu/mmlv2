@@ -13,10 +13,12 @@ import { getTile } from './pmtiles.mjs';
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 export const REPO = path.resolve(HERE, '../..');
 
+// COMPARE_MTB_REPO / COMPARE_MAPLIBRE override the sibling-checkout defaults (e.g. when this repo sits one
+// folder deeper than mtb-trailmap and next-trailmap expect)
 export const DEFAULTS = {
-	mtbRepo: path.join(REPO, '../mtb-trailmap'),
+	mtbRepo: process.env.COMPARE_MTB_REPO || path.join(REPO, '../mtb-trailmap'),
 	mtbRef: 'v81.9',
-	maplibre: path.join(REPO, '../../trailmap/next-trailmap/node_modules/maplibre-gl/dist')
+	maplibre: process.env.COMPARE_MAPLIBRE || path.join(REPO, '../../trailmap/next-trailmap/node_modules/maplibre-gl/dist')
 };
 
 /** Parses --name value pairs over DEFAULTS */
